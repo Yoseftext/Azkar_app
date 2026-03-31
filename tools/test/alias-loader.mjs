@@ -2,7 +2,10 @@ import { readFile } from 'node:fs/promises';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import path from 'node:path';
 import { existsSync } from 'node:fs';
-import ts from '../../node_modules/typescript/lib/typescript.js';
+import { createRequire } from 'node:module';
+
+const require = createRequire(import.meta.url);
+const ts = require('typescript');
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const zustandShimUrl = pathToFileURL(path.join(projectRoot, 'tools/test/shims/zustand.mjs')).href;
