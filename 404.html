@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>جاري تحويلك…</title>
+  <script>
+    (function () {
+      var pathSegments = window.location.pathname.split('/').filter(Boolean);
+      var hasAppSubpath = pathSegments.length > 1;
+      var basePath = hasAppSubpath ? '/' + pathSegments[0] : '';
+      var routePath = hasAppSubpath ? '/' + pathSegments.slice(1).join('/') : window.location.pathname;
+      var query = window.location.search || '';
+      var hash = window.location.hash || '';
+      var normalizedRoute = routePath.replace(/\/index\.html$/, '').replace(/\/404\.html$/, '') || '/';
+      var target = basePath + '/#' + normalizedRoute + query + hash;
+      window.location.replace(window.location.origin + target);
+    })();
+  </script>
+</head>
+<body>
+  <p>جاري تحويلك إلى التطبيق…</p>
+</body>
+</html>

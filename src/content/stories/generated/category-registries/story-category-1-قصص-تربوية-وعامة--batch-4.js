@@ -1,0 +1,28 @@
+export const STORY_ITEM_LOADERS = {
+  "story-category-1-قصص-تربوية-وعامة::97": () => import('../items/story-category-1-قصص-تربوية-وعامة/97.js'),
+  "story-category-1-قصص-تربوية-وعامة::98": () => import('../items/story-category-1-قصص-تربوية-وعامة/98.js'),
+  "story-category-1-قصص-تربوية-وعامة::99": () => import('../items/story-category-1-قصص-تربوية-وعامة/99.js'),
+  "story-category-1-قصص-تربوية-وعامة::100": () => import('../items/story-category-1-قصص-تربوية-وعامة/100.js'),
+  "story-category-1-قصص-تربوية-وعامة::101": () => import('../items/story-category-1-قصص-تربوية-وعامة/101.js'),
+  "story-category-1-قصص-تربوية-وعامة::102": () => import('../items/story-category-1-قصص-تربوية-وعامة/102.js'),
+  "story-category-1-قصص-تربوية-وعامة::103": () => import('../items/story-category-1-قصص-تربوية-وعامة/103.js'),
+  "story-category-1-قصص-تربوية-وعامة::104": () => import('../items/story-category-1-قصص-تربوية-وعامة/104.js'),
+  "story-category-1-قصص-تربوية-وعامة::105": () => import('../items/story-category-1-قصص-تربوية-وعامة/105.js'),
+  "story-category-1-قصص-تربوية-وعامة::106": () => import('../items/story-category-1-قصص-تربوية-وعامة/106.js'),
+  "story-category-1-قصص-تربوية-وعامة::107": () => import('../items/story-category-1-قصص-تربوية-وعامة/107.js'),
+  "story-category-1-قصص-تربوية-وعامة::108": () => import('../items/story-category-1-قصص-تربوية-وعامة/108.js'),
+  "story-category-1-قصص-تربوية-وعامة::109": () => import('../items/story-category-1-قصص-تربوية-وعامة/109.js'),
+  "story-category-1-قصص-تربوية-وعامة::110": () => import('../items/story-category-1-قصص-تربوية-وعامة/110.js'),
+  "story-category-1-قصص-تربوية-وعامة::111": () => import('../items/story-category-1-قصص-تربوية-وعامة/111.js'),
+  "story-category-1-قصص-تربوية-وعامة::112": () => import('../items/story-category-1-قصص-تربوية-وعامة/112.js'),
+  "story-category-1-قصص-تربوية-وعامة::113": () => import('../items/story-category-1-قصص-تربوية-وعامة/113.js'),
+  "story-category-1-قصص-تربوية-وعامة::114": () => import('../items/story-category-1-قصص-تربوية-وعامة/114.js'),
+  "story-category-1-قصص-تربوية-وعامة::115": () => import('../items/story-category-1-قصص-تربوية-وعامة/115.js'),
+  "story-category-1-قصص-تربوية-وعامة::116": () => import('../items/story-category-1-قصص-تربوية-وعامة/116.js'),
+  "story-category-1-قصص-تربوية-وعامة::117": () => import('../items/story-category-1-قصص-تربوية-وعامة/117.js'),
+  "story-category-1-قصص-تربوية-وعامة::118": () => import('../items/story-category-1-قصص-تربوية-وعامة/118.js'),
+  "story-category-1-قصص-تربوية-وعامة::119": () => import('../items/story-category-1-قصص-تربوية-وعامة/119.js'),
+  "story-category-1-قصص-تربوية-وعامة::120": () => import('../items/story-category-1-قصص-تربوية-وعامة/120.js'),
+};
+
+export default STORY_ITEM_LOADERS;

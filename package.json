@@ -1,0 +1,40 @@
+{
+  "name": "azkar-app-next",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node ./node_modules/vite/bin/vite.js",
+    "build": "node ./node_modules/typescript/bin/tsc --noEmit && node ./node_modules/vite/bin/vite.js build",
+    "preview": "node ./node_modules/vite/bin/vite.js preview",
+    "typecheck": "node ./node_modules/typescript/bin/tsc --noEmit",
+    "quran:split": "node ./tools/split-quran-data.mjs",
+    "test": "node --test --experimental-loader ./tools/test/alias-loader.mjs tests/**/*.test.ts",
+    "test:run": "node --test --experimental-loader ./tools/test/alias-loader.mjs tests/**/*.test.ts",
+    "test:coverage": "node --experimental-test-coverage --test --experimental-loader ./tools/test/alias-loader.mjs tests/**/*.test.ts",
+    "duas:split": "node ./tools/split-duas-data.mjs",
+    "stories:split": "node ./tools/split-stories-data.mjs",
+    "content:split": "npm run quran:split && npm run azkar:split && npm run duas:split && npm run stories:split",
+    "azkar:split": "node ./tools/split-azkar-data.mjs",
+    "verify:browser": "node ./tools/verify-browser-runtime.mjs",
+    "verify:e2e": "node ./tools/verify-real-browser-e2e.mjs",
+    "verify:release": "node ./tools/run-release-gate.mjs"
+  },
+  "dependencies": {
+    "firebase": "12.11.0",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "react-router-dom": "7.13.2",
+    "zustand": "5.0.12"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "4.2.2",
+    "@types/node": "25.5.0",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "6.0.1",
+    "tailwindcss": "4.2.2",
+    "typescript": "6.0.2",
+    "vite": "8.0.3"
+  }
+}

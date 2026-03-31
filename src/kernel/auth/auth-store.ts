@@ -1,0 +1,8 @@
+import { create } from 'zustand';
+import type { AuthUser } from '@/kernel/auth/auth-types';
+import { hasRequiredFirebaseEnv } from '@/kernel/auth/auth-config';
+import type { FirebaseAuthRuntime } from '@/kernel/auth/firebase-auth-runtime';
+interface AuthStore { user: AuthUser | null; isReady: boolean; isConfigured: boolean; initialize: () => void; signIn: () => Promise<void>; signOut: () => Promise<void>; }
+let authRuntimePromise: Promise<FirebaseAuthRuntime | null> | null = null; let unsubscribeAuth: (() => void) | null = null;
+async function getAuthRuntime(): Promise<FirebaseAuthRuntime | null> { if(!hasRequiredFirebaseEnv()) return null; if(!authRuntimePromise) authRuntimePromise = import('@/kernel/auth/firebase-auth-runtime').then(({ FirebaseAuthRuntime }) => new FirebaseAuthRuntime()); return authRuntimePromise; }
+export const useAuthStore = create<AuthStore>((set) => ({ user:null, isReady:false, isConfigured:hasRequiredFirebaseEnv(), initialize: () => { if(unsubscribeAuth) return; if(!hasRequiredFirebaseEnv()) { set({ user:null, isReady:true, isConfigured:false }); return; } void getAuthRuntime().then((runtime)=>{ if(!runtime || unsubscribeAuth) { if(!runtime) set({ user:null, isReady:true, isConfigured:false }); return; } unsubscribeAuth = runtime.subscribe((user)=>{ set({ user, isReady:true, isConfigured:true }); }); }).catch(()=>{ set({ user:null, isReady:true, isConfigured:false }); }); }, signIn: async () => { const runtime=await getAuthRuntime(); if(!runtime) throw new Error('Firebase Auth is not configured.'); await runtime.signInWithGoogle(); }, signOut: async () => { const runtime=await getAuthRuntime(); if(!runtime) return; await runtime.signOut(); } }));
