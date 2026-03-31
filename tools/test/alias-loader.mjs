@@ -6,7 +6,6 @@ import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
 const ts = require('typescript');
-
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const zustandShimUrl = pathToFileURL(path.join(projectRoot, 'tools/test/shims/zustand.mjs')).href;
 const quranShimUrl = pathToFileURL(path.join(projectRoot, 'tools/test/shims/load-quran.mjs')).href;
