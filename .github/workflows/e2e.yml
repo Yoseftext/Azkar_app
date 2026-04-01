@@ -29,14 +29,7 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        shell: bash
-        run: |
-          set -euo pipefail
-          npm ci --include=dev
-          if [ ! -d node_modules/typescript ]; then
-            npm install --no-save typescript@6.0.2
-          fi
-          node -e "console.log('typescript:', require.resolve('typescript'))"
+        run: npm install
 
       - name: Unit + integration tests
         shell: bash
