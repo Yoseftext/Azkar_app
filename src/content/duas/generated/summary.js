@@ -1,6 +1,6 @@
 export const DUA_CATEGORY_SUMMARY = [
   {
-    "slug": "dua-category-1-أدعية-من-القرآن",
+    "slug": "dua-category-01-quran-duas",
     "title": "أدعية من القرآن",
     "itemCount": 17,
     "preview": "وَإِذْ يَرْفَعُ إِبْرَٰهِـۧمُ ٱلْقَوَاعِدَ مِنَ ٱلْبَيْتِ وَإِسْمَـٰعِيلُ رَبَّنَا تَقَبَّلْ مِنَّآ ۖ إِنَّكَ أَنتَ ٱلسَّمِيعُ ٱلْعَلِيمُ",
@@ -30,7 +30,7 @@ export const DUA_CATEGORY_SUMMARY = [
     "items": []
   },
   {
-    "slug": "dua-category-2-الكرب-والهم-وقضاء-الدين",
+    "slug": "dua-category-02-distress-debt",
     "title": "الكرب والهم وقضاء الدين",
     "itemCount": 191,
     "preview": "{إن في خلق السماوات والأرض واختلاف الليل والنهار لآيات لأولي الألباب (190) الذين يذكرون الله قياما وقعودا وعلى جنوبهم ويتفكرون في خلق السماوات والأرض",
@@ -236,7 +236,7 @@ export const DUA_CATEGORY_SUMMARY = [
     "items": []
   },
   {
-    "slug": "dua-category-3-الحماية-والتحصين",
+    "slug": "dua-category-03-protection-fortification",
     "title": "الحماية والتحصين",
     "itemCount": 148,
     "preview": "((اللَّهُ اللَّهُ رَبِّي لاَ أُشْرِكُ بِهِ شَيْئاً)).",
@@ -399,7 +399,7 @@ export const DUA_CATEGORY_SUMMARY = [
     "items": []
   },
   {
-    "slug": "dua-category-4-طلب-المغفرة-والتوبة",
+    "slug": "dua-category-04-forgiveness-repentance",
     "title": "طلب المغفرة والتوبة",
     "itemCount": 85,
     "preview": "(لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ المُلْكُ وَلَهُ الحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ، سُبْحَانَ اللَّهِ، وَالحَمْدُ لِلَّهِ، وَلَا إِلَهَ إِلَّا اللَّه، وَاللَّه أَكْبَرُ، وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ العَلِّي العَظِيمِ، رَبِّ اغْفِرْ لِي). أَوْ دَعَا اسْتُجِيبَ لَهُ فَإِنْ تَوَضَّأَ وَصَلَّى قُبِلَتْ صَلَاتَهُ",
@@ -499,7 +499,7 @@ export const DUA_CATEGORY_SUMMARY = [
     "items": []
   },
   {
-    "slug": "dua-category-5-الرزق-والبركة",
+    "slug": "dua-category-05-provision-blessing",
     "title": "الرزق والبركة",
     "itemCount": 43,
     "preview": "سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ، وَتَبَارَكَ اسْمُكَ، وَتَعَالَى جَدُّكْ، وَلَا إِلَهَ غَيْرُكَ",
@@ -557,7 +557,7 @@ export const DUA_CATEGORY_SUMMARY = [
     "items": []
   },
   {
-    "slug": "dua-category-6-الرحمة-والثبات-والهداية",
+    "slug": "dua-category-06-mercy-steadfastness-guidance",
     "title": "الرحمة والثبات والهداية",
     "itemCount": 36,
     "preview": "اللهم  اجعل في قلبي نورا، وفي لساني نورا، وفي سمعي نورا، وفي بصري نورا، ومن فوقي نورا، ومن تحتي نورا، وعن يميني نورا، وعن شمالي نورا، ومن أمامي نورا، ومن خلفي نورا، واجعل في نفسي نورا، وأعظم لي نورا، وعظم لي نورا، واجعل لي نورا، واجعلني نورا.",
@@ -608,7 +608,7 @@ export const DUA_CATEGORY_SUMMARY = [
     "items": []
   },
   {
-    "slug": "dua-category-7-أدعية-عامة",
+    "slug": "dua-category-07-general-duas",
     "title": "أدعية عامة",
     "itemCount": 34,
     "preview": "ربنا  إننا سمعنا مناديا ينادي للإيمان أن آمنوا بربكم فآمنا",
@@ -657,7 +657,7 @@ export const DUA_CATEGORY_SUMMARY = [
     "items": []
   },
   {
-    "slug": "dua-category-8-الجنة-والنار-والآخرة",
+    "slug": "dua-category-08-paradise-hell-hereafter",
     "title": "الجنة والنار والآخرة",
     "itemCount": 11,
     "preview": "ربنا  ما خلقت هذا باطلا سبحانك فقنا عذاب النار (191)",
@@ -683,7 +683,7 @@ export const DUA_CATEGORY_SUMMARY = [
     "items": []
   },
   {
-    "slug": "dua-category-9-الدنيا-والآخرة-والخير",
+    "slug": "dua-category-09-dunya-hereafter-goodness",
     "title": "الدنيا والآخرة والخير",
     "itemCount": 9,
     "preview": "الحَمْدُ لِلَّهِ الذِي أَحْيَانَا بَعْدَمَا أَمَاتَنَا، وَإِلَيْهِ النُّشُّورُ",
@@ -707,7 +707,7 @@ export const DUA_CATEGORY_SUMMARY = [
     "items": []
   },
   {
-    "slug": "dua-category-10-الأخلاق-والصلاح",
+    "slug": "dua-category-10-character-righteousness",
     "title": "الأخلاق والصلاح",
     "itemCount": 8,
     "preview": "التَّحِيَّاتُ لِلَّهِ، وَالصَّلَوَاتُ، وَالطَّيِّبَاتُ، السَّلَامُ عَلَيْكَ أَيُّهَا النَّبِيُّ وَرَحْمَةُ اللَّهِ وَبَرَكَاتُهُ، السَّلَامُ عَلَيْنَا وَعَلَى عِبَادِ اللَّهِ الصَّالِحِينَ، أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللَّهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ",
@@ -729,7 +729,7 @@ export const DUA_CATEGORY_SUMMARY = [
     "items": []
   },
   {
-    "slug": "dua-category-11-الصحة-والشفاء",
+    "slug": "dua-category-11-health-healing",
     "title": "الصحة والشفاء",
     "itemCount": 7,
     "preview": "الحَمْدُ لِلَّهِ الذِي عَافَانِي فِي جَسَدِي، وَرَدَّ عَلَيَّ رُوحِي، وَأَذِنَ لِي بِذِكْرِهِ",
@@ -750,7 +750,7 @@ export const DUA_CATEGORY_SUMMARY = [
     "items": []
   },
   {
-    "slug": "dua-category-12-السفر-والرزق-في-الطريق",
+    "slug": "dua-category-12-travel-road-provision",
     "title": "السفر والرزق في الطريق",
     "itemCount": 5,
     "preview": "بِسْمِ اللًّهِ وَلَجْنَا، وَبِسْمِ اللَّهِ خَرَجْنَا، وَعَلَى اللَّهِ رَبِّنَا تَوَكَّلْنَا. ثُمَّ لِيُسَلِّمْ عَلَى أَهْلِهِ",
@@ -770,7 +770,7 @@ export const DUA_CATEGORY_SUMMARY = [
     "items": []
   },
   {
-    "slug": "dua-category-13-الأهل-والذرية",
+    "slug": "dua-category-13-family-offspring",
     "title": "الأهل والذرية",
     "itemCount": 2,
     "preview": "رَبِّ هَبْ لِي مِن لَّدُنكَ ذُرِّيَّةً طَيِّبَةً ۖ إِنَّكَ سَمِيعُ الدُّعَاءِ",
@@ -785,7 +785,7 @@ export const DUA_CATEGORY_SUMMARY = [
     "items": []
   },
   {
-    "slug": "dua-category-14-الصلاة-والعبادة",
+    "slug": "dua-category-14-prayer-worship",
     "title": "الصلاة والعبادة",
     "itemCount": 2,
     "preview": "((يبدأ برجله اليسرى)) ويقول: ((بسم الله والصلاة والسلام على رسول الله،",
@@ -801,7 +801,7 @@ export const DUA_CATEGORY_SUMMARY = [
     "items": []
   },
   {
-    "slug": "dua-category-15-العلم-والفهم",
+    "slug": "dua-category-15-knowledge-understanding",
     "title": "العلم والفهم",
     "itemCount": 2,
     "preview": "بِشَيْءٍ مِّنْ عِلْمِهِ إِلاَّ بِمَا شَاء وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ",

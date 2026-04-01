@@ -1,0 +1,346 @@
+export const DUA_SOURCE_CATEGORY = {
+  "slug": "dua-category-07-general-duas",
+  "title": "أدعية عامة",
+  "items": [
+    {
+      "id": 113,
+      "text": "ربنا  إننا سمعنا مناديا ينادي للإيمان أن آمنوا بربكم فآمنا",
+      "reference": "البخاري مع الفتح 8/ 238 ومسلم 1/ 530",
+      "source": "HisnElMuslim",
+      "repeatTarget": 1,
+      "description": null,
+      "originalCategory": "أَذْكَارُ الِاسْتِيقَاظِ مِنَ النَّوْمِ"
+    },
+    {
+      "id": 114,
+      "text": "سُبْحَانَ رَبِّيَ العَظِيمِ",
+      "reference": "أخرجه أهل السنن وأحمد وانظر صحيح التّرمذي 1/ 83",
+      "source": "HisnElMuslim",
+      "repeatTarget": 3,
+      "description": null,
+      "originalCategory": "دُعَاءُ الرُّكُوعِ"
+    },
+    {
+      "id": 115,
+      "text": "سُبْحَانَ رَبِّيَ الأَعْلَى",
+      "reference": "أخرجه أهل السنن وأحمد وانظر صحيح التّرمذي 1/ 83",
+      "source": "HisnElMuslim",
+      "repeatTarget": 3,
+      "description": null,
+      "originalCategory": "دُعَاءُ السُّجُودِ"
+    },
+    {
+      "id": 116,
+      "text": "ربنا  وإليك المصير * لا يكلف الله نفسا إلا وسعها لها ما كسبت وعليها ما اكتسبت",
+      "reference": "من قرأهما في ليلة كفتاه، البخاري مع الفتح 9/ 94 ومسلم 1/ 554، والآيتان من سورة البقرة، 285 – 286",
+      "source": "HisnElMuslim",
+      "repeatTarget": 1,
+      "description": null,
+      "originalCategory": "أَذْكَارُ النَّوْمِ"
+    },
+    {
+      "id": 117,
+      "text": "ربنا  لا تؤاخذنا إن نسينا أو أخطأنا",
+      "reference": "من قرأهما في ليلة كفتاه، البخاري مع الفتح 9/ 94 ومسلم 1/ 554، والآيتان من سورة البقرة، 285 – 286",
+      "source": "HisnElMuslim",
+      "repeatTarget": 1,
+      "description": null,
+      "originalCategory": "أَذْكَارُ النَّوْمِ"
+    },
+    {
+      "id": 118,
+      "text": "ربنا  ولا تحمل علينا إصرا كما حملته على الذين من قبلنا",
+      "reference": "من قرأهما في ليلة كفتاه، البخاري مع الفتح 9/ 94 ومسلم 1/ 554، والآيتان من سورة البقرة، 285 – 286",
+      "source": "HisnElMuslim",
+      "repeatTarget": 1,
+      "description": null,
+      "originalCategory": "أَذْكَارُ النَّوْمِ"
+    },
+    {
+      "id": 119,
+      "text": "لَا إِلَهَ إِلَّا اللَّهُ العَظِيمُ الحَلِيمُ، لَا إِلَهَ إِلَّا اللَّهُ رَبُّ العَرْشِ العَظِيمِ، لَا إِلَهَ إِلَّا اللَّهُ رَبُّ السَّمَاوَاتِ وَرَبُّ الأَرْضِ وَرَبُّ العَرْشِ الكَرِيمِ",
+      "reference": "البخاري 7/ 154 ومسلم 4/ 2092",
+      "source": "HisnElMuslim",
+      "repeatTarget": 1,
+      "description": null,
+      "originalCategory": "دُعَاءُ الكَرْبِ"
+    },
+    {
+      "id": 120,
+      "text": "ربنا  وترضى.",
+      "reference": "التّرمذي 5/ 504 والدّارمي بلفظه 1/ 336 وانظر صحيح التّرمذي 3/ 157",
+      "source": "HisnElMuslim",
+      "repeatTarget": 1,
+      "description": null,
+      "originalCategory": "دُعَاءُ رُؤْيَةِ الهِلَالِ"
+    },
+    {
+      "id": 121,
+      "text": "ربنا  وربك الله",
+      "reference": "التّرمذي 5/ 504 والدّارمي بلفظه 1/ 336 وانظر صحيح التّرمذي 3/ 157",
+      "source": "HisnElMuslim",
+      "repeatTarget": 1,
+      "description": null,
+      "originalCategory": "دُعَاءُ رُؤْيَةِ الهِلَالِ"
+    },
+    {
+      "id": 122,
+      "text": "ربنا  حامدون)",
+      "reference": "مسلم 2/ 998",
+      "source": "HisnElMuslim",
+      "repeatTarget": 1,
+      "description": null,
+      "originalCategory": "دُعَاءُ السَّفَرِ"
+    },
+    {
+      "id": 123,
+      "text": "يُكَبِّرُ كُلَّمَا رَمَى بِحَصَاةٍ عِنْدَ الجِمَارِ الثَّلَاثِ، ثُمَّ يَتَقَدَّمُ، وَيَقِفُ يَدْعُو مُسْتَقْبِلَ القِبْلَةِ، رَافِعًا يَدَيْهِ بَعْدَ الجَمْرَةِ الأُولَى وَالثَّانِيَةِ. أَمَّا جَمْرَةُ العَقَبَةِ فَيَرْمِيهَا وَيُكَبِّرُ عِنْدَ كُلِّ حَصَاةٍ وَيَنْصَرِفُ وَلَا يَقِفُ عِنْدَهَا",
+      "reference": "البخاري مع الفتح 3/ 583 و 3/ 584، وانظر لفظه هناك. والبخاري مع الفتح 3/ 581 ورواه مسلم أيضا.",
+      "source": "HisnElMuslim",
+      "repeatTarget": 1,
+      "description": null,
+      "originalCategory": "التَّكْبِيرُ عِنْدَ رَمْيِ الجِمَارِ مَعَ كُلِّ حَصَاةٍ"
+    },
+    {
+      "id": 124,
+      "text": "ربنا  وإليك المصير. لا يكلف الله نفسا إلا وسعها لها ما كسبت وعليها ما اكتسبت",
+      "reference": "سورة البقرة 285 - 286",
+      "source": "AzkarDB",
+      "repeatTarget": 1,
+      "description": "من قرأ آيتين من آخر سورة البقرة في ليلة كفتاه.",
+      "originalCategory": "أذكار المساء"
+    },
+    {
+      "id": 125,
+      "text": "ربنا  لا تؤاخذنا إن نسينآ أو أخطأنا",
+      "reference": "سورة البقرة 285 - 286",
+      "source": "AzkarDB",
+      "repeatTarget": 1,
+      "description": "من قرأ آيتين من آخر سورة البقرة في ليلة كفتاه.",
+      "originalCategory": "أذكار المساء"
+    },
+    {
+      "id": 126,
+      "text": "ربنا  ولا تحمل علينا إصرا كما حملته على الذين من قبلنا",
+      "reference": "سورة البقرة 285 - 286",
+      "source": "AzkarDB",
+      "repeatTarget": 1,
+      "description": "من قرأ آيتين من آخر سورة البقرة في ليلة كفتاه.",
+      "originalCategory": "أذكار المساء"
+    },
+    {
+      "id": 127,
+      "text": "ربنا  إننا سمعنا مناديا ينادي للإيمان أن آمنوا بربكم فآمنا",
+      "reference": null,
+      "source": "AzkarDB",
+      "repeatTarget": null,
+      "description": null,
+      "originalCategory": "أذكار الاستيقاظ من النوم"
+    },
+    {
+      "id": 128,
+      "text": "((سُبْحانَ رَبِّيَ الْعَظِيمِ)). ثلاث مرَّاتٍ.",
+      "reference": null,
+      "source": "AzkarDB",
+      "repeatTarget": null,
+      "description": null,
+      "originalCategory": "دعاء الركوع"
+    },
+    {
+      "id": 129,
+      "text": "((سُبْحَانَ رَبِّيَ الأَعْلَى)) ثلاث مرَّاتٍ.",
+      "reference": null,
+      "source": "AzkarDB",
+      "repeatTarget": null,
+      "description": null,
+      "originalCategory": "دعاء السجود"
+    },
+    {
+      "id": 130,
+      "text": "((سُبْحَانَ المَلِكِ القُدُّوسِ)) ثلاثَ مرَّاتٍ والثَّالِثَةُ يَجْهَرُ بها ويَمُدُّ بها صَوتَهُ يقولُ: [رَبِّ الْمَلاَئِكَةِ وَالرُّوحِ])).",
+      "reference": null,
+      "source": "AzkarDB",
+      "repeatTarget": null,
+      "description": null,
+      "originalCategory": "الذكر عقب السلام من الوتر"
+    },
+    {
+      "id": 131,
+      "text": "((لاَ إِلَهَ إِلاَّ اللَّهُ الْعَظِيمُ الْحَلِيمُ، لاَ إِلَهَ إِلاَّ اللَّهُ رَبُّ الْعَرْشِ الْعَظِيمِ، لاَ إِلَهَ إِلاَّ اللَّهُ رَبُّ السَّمَوَاتِ وَرَبُّ الْأَرْضِ وَرَبُّ الْعَرْشِ الْكَرِيمِ)).",
+      "reference": null,
+      "source": "AzkarDB",
+      "repeatTarget": null,
+      "description": null,
+      "originalCategory": "دعاء الكرب"
+    },
+    {
+      "id": 132,
+      "text": "ربنا  وترضى،",
+      "reference": null,
+      "source": "AzkarDB",
+      "repeatTarget": null,
+      "description": null,
+      "originalCategory": "دعاء رؤية الهلال"
+    },
+    {
+      "id": 133,
+      "text": "ربنا  وربك الله)).",
+      "reference": null,
+      "source": "AzkarDB",
+      "repeatTarget": null,
+      "description": null,
+      "originalCategory": "دعاء رؤية الهلال"
+    },
+    {
+      "id": 134,
+      "text": "ربنا  حامدون)).",
+      "reference": null,
+      "source": "AzkarDB",
+      "repeatTarget": null,
+      "description": null,
+      "originalCategory": "دعاء السفر"
+    },
+    {
+      "id": 135,
+      "text": "((يُكَبِّرُ كُلَّمَا رَمَى بِحَصَاةٍ عِنْدَ الْجِمَارِ الثَّلاَثِ، ثُمَّ يَتَقَدَّمُ، ويَقِفُ يَدْعُو مُسْتَقْبِلَ الْقِبلَةِ، رَافِعاً يَدَيْهِ بَعْدَ الْجَمْرَةِ الْأُولَى وَالثَّانِيَةِ. أَمَّا جَمْرَةُ الْعَقَبَةِ فَيَرْمِيهَا وَيُكَبِّرُ عِنْدَ كُلِّ حَصَاةٍ وَيَنْصَرِفُ وَلاَ يَقِفُ عِنْدَهَا)).",
+      "reference": null,
+      "source": "AzkarDB",
+      "repeatTarget": null,
+      "description": null,
+      "originalCategory": "التكبير عند رمي الجمار مع كل حصاة"
+    },
+    {
+      "id": 136,
+      "text": "السَّمَاوَاتِ وَمَا فِي الأَرْضِ مَن ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلاَّ",
+      "reference": null,
+      "source": "AzkarDB",
+      "repeatTarget": null,
+      "description": null,
+      "originalCategory": "الرقية الشرعية من القرآن الكريم"
+    },
+    {
+      "id": 137,
+      "text": "لِلَّهِ مَا فِي السَّمَاوَاتِ",
+      "reference": null,
+      "source": "AzkarDB",
+      "repeatTarget": null,
+      "description": null,
+      "originalCategory": "الرقية الشرعية من القرآن الكريم"
+    },
+    {
+      "id": 138,
+      "text": "سَمِعْنَا وَأَطَعْنَا غُفْرَانَكَ رَبَّنَا وَإِلَيْكَ الْمَصِيرُ ﴿285﴾ لَا",
+      "reference": null,
+      "source": "AzkarDB",
+      "repeatTarget": null,
+      "description": null,
+      "originalCategory": "الرقية الشرعية من القرآن الكريم"
+    },
+    {
+      "id": 139,
+      "text": "ربنا  لا تؤاخذنا إن نسينا أو أخطأنا",
+      "reference": null,
+      "source": "AzkarDB",
+      "repeatTarget": null,
+      "description": null,
+      "originalCategory": "الرقية الشرعية من القرآن الكريم"
+    },
+    {
+      "id": 140,
+      "text": "قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ ﴿1﴾",
+      "reference": null,
+      "source": "AzkarDB",
+      "repeatTarget": null,
+      "description": null,
+      "originalCategory": "الرقية الشرعية من القرآن الكريم"
+    },
+    {
+      "id": 141,
+      "text": "قُلْ أَعُوذُ بِرَبِّ النَّاسِ ﴿1﴾",
+      "reference": null,
+      "source": "AzkarDB",
+      "repeatTarget": null,
+      "description": null,
+      "originalCategory": "الرقية الشرعية من القرآن الكريم"
+    },
+    {
+      "id": 142,
+      "text": "لَا إِلَهَ إِلَّا اللَّهُ الْعَظِيمُ الْحَلِيمُ، لَا إِلَهَ إِلَّا اللَّهُ رَبُّ الْعَرْشِ الْكَرِيمِ، لَا إِلَهَ إِلَّا اللَّهُ رَبُّ السَّمَاوَاتِ وَرَبُّ الْعَرْشِ الْعَظِيمِ.",
+      "reference": "أحمد",
+      "source": "AzkarDB",
+      "repeatTarget": null,
+      "description": null,
+      "originalCategory": "الرقية الشرعية من السنة النبوية"
+    },
+    {
+      "id": 143,
+      "text": "بِسْمِ اللهِ تربَةُ أَرْضِنَا، بِرِيقةِ بَعْضِنَا، يُشْفَى سَقِيمُنَا، بإِذْنِ رَبِّنَا.",
+      "reference": "البخاري",
+      "source": "AzkarDB",
+      "repeatTarget": null,
+      "description": null,
+      "originalCategory": "الرقية الشرعية من السنة النبوية"
+    },
+    {
+      "id": 144,
+      "text": "رَبَّنَا ظَلَمْنَا أَنْفُسَنَا وَإِنْ لَمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ",
+      "reference": [
+        {
+          "surah": {
+            "number": 7,
+            "name": "الأعراف"
+          },
+          "ayah": {
+            "from": 23,
+            "to": 23
+          }
+        }
+      ],
+      "source": "100DuaaBook",
+      "repeatTarget": null,
+      "description": null,
+      "originalCategory": "سؤال الله المغفرة والرحمة"
+    },
+    {
+      "id": 145,
+      "text": "رَبَّنَا اجْعَل لَّنَا مِن لَّدُنكَ وَلِيًّا وَاجْعَل لَّنَا مِن لَّدُنكَ نَصِيرًا",
+      "reference": [
+        {
+          "surah": {
+            "number": 4,
+            "name": "النساء"
+          },
+          "ayah": {
+            "from": 75,
+            "to": 75
+          }
+        }
+      ],
+      "source": "100DuaaBook",
+      "repeatTarget": null,
+      "description": null,
+      "originalCategory": "سؤال الله الحفظ والنصرة"
+    },
+    {
+      "id": 146,
+      "text": "رَبِّ نَجِّنِي مِنَ الْقَوْمِ الظَّالِمِينَ",
+      "reference": [
+        {
+          "surah": {
+            "number": 28,
+            "name": "القصص"
+          },
+          "ayah": {
+            "from": 21,
+            "to": 21
+          }
+        }
+      ],
+      "source": "100DuaaBook",
+      "repeatTarget": null,
+      "description": null,
+      "originalCategory": "سؤال الله الحفظ والنصرة"
+    }
+  ]
+};
+export default DUA_SOURCE_CATEGORY;

@@ -17,8 +17,6 @@ import { useStoriesStore } from '@/features/stories/state/stories-store';
 import { getLocalDateKey } from '@/shared/lib/date';
 import { makeDuaCategory, makeDuaItem, makeStoryCategory, makeStoryItem } from './helpers/route-fixtures.ts';
 
-const todayKey = getLocalDateKey();
-
 test('SettingsPage DOM interactions toggle theme and invoke sign out action', async () => {
   resetAllStores();
   let signOutCalls = 0;
@@ -67,6 +65,7 @@ test('DuasPage DOM interactions toggle favorite and completion through visible c
     assert.deepEqual(useDuasStore.getState().favoriteIds, ['dua-1']);
     assert.match(harness.bodyText(), /اللهم اغفر لي/);
     await harness.click(harness.findByAttribute('aria-label', 'تأكيد إنجاز الدعاء'));
+    const todayKey = getLocalDateKey();
     assert.deepEqual(useDuasStore.getState().completedByDate[todayKey], ['dua-1']);
     assert.match(harness.bodyText(), /تقدم اليوم/);
   } finally { await harness.cleanup(); }

@@ -12,26 +12,23 @@ const registryBatchesDir = path.join(outputDir, 'category-registries');
 const summaryBatchesDir = path.join(outputDir, 'category-summaries');
 const DEFAULT_SUMMARY_BATCH_SIZE = 32;
 
-function makeSlug(title, index) {
-  const normalized = title
-    .normalize('NFKC')
-    .trim()
+function toAsciiSlug(value, fallback) {
+  const normalized = String(value ?? '')
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase()
-    .replace(/[^\p{L}\p{N}]+/gu, '-')
+    .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
 
-  return `story-category-${index + 1}-${normalized || 'untitled'}`;
+  return normalized || fallback;
+}
+
+function makeSlug(title, index) {
+  return `story-category-${String(index + 1).padStart(2, '0')}-${toAsciiSlug(title, 'untitled')}`;
 }
 
 function makeStoryFileName(id, index) {
-  const normalized = String(id)
-    .normalize('NFKC')
-    .trim()
-    .toLowerCase()
-    .replace(/[^\p{L}\p{N}]+/gu, '-')
-    .replace(/^-+|-+$/g, '');
-
-  return `${normalized || `story-${index + 1}`}.js`;
+  return `${toAsciiSlug(id, `story-${index + 1}`)}.js`;
 }
 
 function normalizeText(value) {
@@ -47,7 +44,6 @@ function buildStoryExcerpt(value) {
 function normalizeLegacyStory(item, categoryTitle, categorySlug, index) {
   const title = normalizeText(item.title);
   const story = normalizeText(item.story);
-
   if (!title || !story) return null;
 
   const legacyIdSource = item.id ?? index + 1;
@@ -104,7 +100,7 @@ for (const [categoryIndex, manifestEntry] of sourceManifest.entries()) {
   const sourceCategory = sourceCategoryModule.STORY_SOURCE_CATEGORY ?? sourceCategoryModule.default ?? {};
 
   const title = normalizeText(sourceCategory.title ?? sourceCategory.name ?? manifestEntry.title) || `قصص ${categoryIndex + 1}`;
-  const slug = normalizeText(sourceCategory.slug ?? manifestEntry.slug) || makeSlug(title, categoryIndex);
+  const slug = toAsciiSlug(sourceCategory.slug ?? manifestEntry.slug, makeSlug(title, categoryIndex));
   const itemsDir = path.join(itemsRootDir, slug);
   await mkdir(itemsDir, { recursive: true });
 

@@ -1,28 +1,28 @@
 export const AZKAR_SOURCE_MANIFEST = [
   {
-    "slug": "أذكار-الصباح",
-    "title": "أذكار الصباح",
-    "fileName": "أذكار-الصباح.js"
-  },
-  {
-    "slug": "أذكار-المساء",
-    "title": "أذكار المساء",
-    "fileName": "أذكار-المساء.js"
-  },
-  {
-    "slug": "أذكار-النوم",
-    "title": "أذكار النوم",
-    "fileName": "أذكار-النوم.js"
-  },
-  {
-    "slug": "أذكار-الاستيقاظ",
-    "title": "أذكار الاستيقاظ",
-    "fileName": "أذكار-الاستيقاظ.js"
-  },
-  {
-    "slug": "أذكار-بعد-الصلاة",
+    "slug": "azkar-after-prayer",
     "title": "أذكار بعد الصلاة",
-    "fileName": "أذكار-بعد-الصلاة.js"
+    "fileName": "azkar-after-prayer.js"
+  },
+  {
+    "slug": "azkar-evening",
+    "title": "أذكار المساء",
+    "fileName": "azkar-evening.js"
+  },
+  {
+    "slug": "azkar-morning",
+    "title": "أذكار الصباح",
+    "fileName": "azkar-morning.js"
+  },
+  {
+    "slug": "azkar-sleep",
+    "title": "أذكار النوم",
+    "fileName": "azkar-sleep.js"
+  },
+  {
+    "slug": "azkar-wakeup",
+    "title": "أذكار الاستيقاظ",
+    "fileName": "azkar-wakeup.js"
   }
 ];
 export default AZKAR_SOURCE_MANIFEST;

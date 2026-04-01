@@ -252,12 +252,17 @@ async function loadCategorySummaryBatch(categorySlug: string, batchIndex: number
   const cached = categorySummaryBatchCache.get(cacheKey);
   if (cached) return { ...cached, itemIds: [...cached.itemIds], items: cached.items.map((item) => cloneStoryItem(item)) };
 
-  const loader = categorySummaryBatchModuleLoaders[getCategorySummaryBatchModulePath(categorySlug, batchIndex)];
-  if (!loader) return null;
+  const modulePath = getCategorySummaryBatchModulePath(categorySlug, batchIndex);
+  const loader = categorySummaryBatchModuleLoaders[modulePath];
+  if (!loader) {
+    throw new Error(`Missing story summary batch module for ${categorySlug} batch ${batchIndex} at ${modulePath}.`);
+  }
 
   const mod = await loader();
   const batch = mod.STORY_CATEGORY_SUMMARY_BATCH ?? mod.default ?? null;
-  if (!batch) return null;
+  if (!batch) {
+    throw new Error(`Invalid story summary batch module for ${categorySlug} batch ${batchIndex}.`);
+  }
 
   categorySummaryBatchCache.set(cacheKey, batch);
   return { ...batch, itemIds: [...batch.itemIds], items: batch.items.map((item) => cloneStoryItem(item)) };
@@ -268,11 +273,18 @@ async function loadCategoryItemLoaders(categorySlug: string, batchIndex: number)
   const cached = categoryItemLoaderBatchCache.get(cacheKey);
   if (cached) return cached;
 
-  const loader = categoryRegistryBatchModuleLoaders[getCategoryRegistryBatchModulePath(categorySlug, batchIndex)];
-  if (!loader) return {};
+  const modulePath = getCategoryRegistryBatchModulePath(categorySlug, batchIndex);
+  const loader = categoryRegistryBatchModuleLoaders[modulePath];
+  if (!loader) {
+    throw new Error(`Missing story registry batch module for ${categorySlug} batch ${batchIndex} at ${modulePath}.`);
+  }
 
   const mod = await loader();
-  const loaders = mod.STORY_ITEM_LOADERS ?? mod.default ?? {};
+  const loaders = mod.STORY_ITEM_LOADERS ?? mod.default ?? null;
+  if (!loaders) {
+    throw new Error(`Invalid story registry batch module for ${categorySlug} batch ${batchIndex}.`);
+  }
+
   categoryItemLoaderBatchCache.set(cacheKey, loaders);
   return loaders;
 }
@@ -369,11 +381,15 @@ export async function loadStoryItemById(categorySlug: string, storyId: string): 
   const batchIndex = findStorySummaryBatchIndex(manifestCategory, normalizedStoryId);
   const categoryLoaders = await loadCategoryItemLoaders(normalizedCategorySlug, batchIndex);
   const loader = categoryLoaders[normalizedStoryId];
-  if (!loader) return null;
+  if (!loader) {
+    throw new Error(`Missing story item loader for ${normalizedStoryId} in ${normalizedCategorySlug} batch ${batchIndex}.`);
+  }
 
   const mod = await loader();
   const story = mod.STORY_ITEM ?? mod.default ?? null;
-  if (!story) return null;
+  if (!story) {
+    throw new Error(`Invalid story item module for ${normalizedStoryId} in ${normalizedCategorySlug}.`);
+  }
 
   storyCache.set(cacheKey, story);
   return cloneStoryItem(story);

@@ -1,75 +1,75 @@
 export const AZKAR_CATEGORY_SUMMARY = [
   {
-    "slug": "أذكار-الصباح",
-    "title": "أذكار الصباح",
-    "itemCount": 5,
-    "preview": "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ.",
-    "itemIds": [
-      "أذكار-الصباح-1",
-      "أذكار-الصباح-2",
-      "أذكار-الصباح-3",
-      "أذكار-الصباح-4",
-      "أذكار-الصباح-5"
-    ],
-    "itemsLoaded": false,
-    "items": []
-  },
-  {
-    "slug": "أذكار-المساء",
-    "title": "أذكار المساء",
-    "itemCount": 5,
-    "preview": "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ.",
-    "itemIds": [
-      "أذكار-المساء-1",
-      "أذكار-المساء-2",
-      "أذكار-المساء-3",
-      "أذكار-المساء-4",
-      "أذكار-المساء-5"
-    ],
-    "itemsLoaded": false,
-    "items": []
-  },
-  {
-    "slug": "أذكار-النوم",
-    "title": "أذكار النوم",
-    "itemCount": 5,
-    "preview": "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا.",
-    "itemIds": [
-      "أذكار-النوم-1",
-      "أذكار-النوم-2",
-      "أذكار-النوم-3",
-      "أذكار-النوم-4",
-      "أذكار-النوم-5"
-    ],
-    "itemsLoaded": false,
-    "items": []
-  },
-  {
-    "slug": "أذكار-الاستيقاظ",
-    "title": "أذكار الاستيقاظ",
-    "itemCount": 5,
-    "preview": "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا.",
-    "itemIds": [
-      "أذكار-الاستيقاظ-1",
-      "أذكار-الاستيقاظ-2",
-      "أذكار-الاستيقاظ-3",
-      "أذكار-الاستيقاظ-4",
-      "أذكار-الاستيقاظ-5"
-    ],
-    "itemsLoaded": false,
-    "items": []
-  },
-  {
-    "slug": "أذكار-بعد-الصلاة",
+    "slug": "azkar-after-prayer",
     "title": "أذكار بعد الصلاة",
     "itemCount": 5,
     "preview": "أَسْتَغْفِرُ اللَّهَ.",
     "itemIds": [
-      "أذكار-بعد-الصلاة-1",
-      "أذكار-بعد-الصلاة-2",
-      "أذكار-بعد-الصلاة-3",
-      "أذكار-بعد-الصلاة-4",
-      "أذكار-بعد-الصلاة-5"
+      "azkar-after-prayer-1",
+      "azkar-after-prayer-2",
+      "azkar-after-prayer-3",
+      "azkar-after-prayer-4",
+      "azkar-after-prayer-5"
+    ],
+    "itemsLoaded": false,
+    "items": []
+  },
+  {
+    "slug": "azkar-evening",
+    "title": "أذكار المساء",
+    "itemCount": 5,
+    "preview": "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ.",
+    "itemIds": [
+      "azkar-evening-1",
+      "azkar-evening-2",
+      "azkar-evening-3",
+      "azkar-evening-4",
+      "azkar-evening-5"
+    ],
+    "itemsLoaded": false,
+    "items": []
+  },
+  {
+    "slug": "azkar-morning",
+    "title": "أذكار الصباح",
+    "itemCount": 5,
+    "preview": "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ.",
+    "itemIds": [
+      "azkar-morning-1",
+      "azkar-morning-2",
+      "azkar-morning-3",
+      "azkar-morning-4",
+      "azkar-morning-5"
+    ],
+    "itemsLoaded": false,
+    "items": []
+  },
+  {
+    "slug": "azkar-sleep",
+    "title": "أذكار النوم",
+    "itemCount": 5,
+    "preview": "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا.",
+    "itemIds": [
+      "azkar-sleep-1",
+      "azkar-sleep-2",
+      "azkar-sleep-3",
+      "azkar-sleep-4",
+      "azkar-sleep-5"
+    ],
+    "itemsLoaded": false,
+    "items": []
+  },
+  {
+    "slug": "azkar-wakeup",
+    "title": "أذكار الاستيقاظ",
+    "itemCount": 5,
+    "preview": "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا.",
+    "itemIds": [
+      "azkar-wakeup-1",
+      "azkar-wakeup-2",
+      "azkar-wakeup-3",
+      "azkar-wakeup-4",
+      "azkar-wakeup-5"
     ],
     "itemsLoaded": false,
     "items": []

@@ -1,0 +1,28 @@
+export const STORY_ITEM_LOADERS = {
+  "story-category-01-general::217": () => import('../items/story-category-01-general/217.js'),
+  "story-category-01-general::218": () => import('../items/story-category-01-general/218.js'),
+  "story-category-01-general::219": () => import('../items/story-category-01-general/219.js'),
+  "story-category-01-general::220": () => import('../items/story-category-01-general/220.js'),
+  "story-category-01-general::221": () => import('../items/story-category-01-general/221.js'),
+  "story-category-01-general::222": () => import('../items/story-category-01-general/222.js'),
+  "story-category-01-general::223": () => import('../items/story-category-01-general/223.js'),
+  "story-category-01-general::224": () => import('../items/story-category-01-general/224.js'),
+  "story-category-01-general::225": () => import('../items/story-category-01-general/225.js'),
+  "story-category-01-general::226": () => import('../items/story-category-01-general/226.js'),
+  "story-category-01-general::227": () => import('../items/story-category-01-general/227.js'),
+  "story-category-01-general::228": () => import('../items/story-category-01-general/228.js'),
+  "story-category-01-general::229": () => import('../items/story-category-01-general/229.js'),
+  "story-category-01-general::230": () => import('../items/story-category-01-general/230.js'),
+  "story-category-01-general::231": () => import('../items/story-category-01-general/231.js'),
+  "story-category-01-general::232": () => import('../items/story-category-01-general/232.js'),
+  "story-category-01-general::233": () => import('../items/story-category-01-general/233.js'),
+  "story-category-01-general::234": () => import('../items/story-category-01-general/234.js'),
+  "story-category-01-general::235": () => import('../items/story-category-01-general/235.js'),
+  "story-category-01-general::236": () => import('../items/story-category-01-general/236.js'),
+  "story-category-01-general::237": () => import('../items/story-category-01-general/237.js'),
+  "story-category-01-general::238": () => import('../items/story-category-01-general/238.js'),
+  "story-category-01-general::239": () => import('../items/story-category-01-general/239.js'),
+  "story-category-01-general::240": () => import('../items/story-category-01-general/240.js'),
+};
+
+export default STORY_ITEM_LOADERS;

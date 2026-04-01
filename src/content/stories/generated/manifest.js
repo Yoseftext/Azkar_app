@@ -1,6 +1,6 @@
 export const STORY_CATEGORY_MANIFEST = [
   {
-    "slug": "story-category-1-قصص-تربوية-وعامة",
+    "slug": "story-category-01-general",
     "title": "قصص تربوية وعامة",
     "itemCount": 250,
     "preview": "كان هناك شاب في المدرسة، يمرّ باختبار يومي كشف له معنى التوبة. بدأ الموقف حين وقع أمامه خياران: أحدهما سهل وسريع، والآخر أصعب لكنه أقرب إلى الصواب. توقف قليل…",
@@ -262,7 +262,7 @@ export const STORY_CATEGORY_MANIFEST = [
     "summaryBatchSize": 24
   },
   {
-    "slug": "story-category-2-قصص-الأنبياء",
+    "slug": "story-category-02-prophets",
     "title": "قصص الأنبياء",
     "itemCount": 125,
     "preview": "علّم الله آدم الأسماء كلها، ثم عرضها على الملائكة فأظهر بذلك فضل العلم ومكانة الإنسان المكرم بالطاعة. وقد حملت هذه القصة معاني عظيمة في الثبات واليقين وحسن ا…",
@@ -399,7 +399,7 @@ export const STORY_CATEGORY_MANIFEST = [
     "summaryBatchSize": 32
   },
   {
-    "slug": "story-category-3-قصص-الصحابة",
+    "slug": "story-category-03-companions",
     "title": "قصص الصحابة",
     "itemCount": 125,
     "preview": "كان أبو بكر من أوائل من آمنوا بالنبي صلى الله عليه وسلم، وثبت معه في كل المواقف العظيمة. وتظهر هذه القصة كيف كان الصحابة يجمعون بين الإيمان العملي وحسن الخلق…",
