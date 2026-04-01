@@ -28,12 +28,12 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-  env:
-    NODE_ENV: development
-  run: npm ci --include=dev
+        run: npm ci --include=dev
 
       - name: Unit + integration tests
-        run: npm test
+        shell: bash
+        run: |
+          node --test --experimental-loader ./tools/test/alias-loader.mjs $(find tests -name '*.test.ts' -print | sort)
 
       - name: Build
         run: npm run build
