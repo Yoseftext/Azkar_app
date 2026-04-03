@@ -2,7 +2,7 @@ import type { StorageEngine } from '@/kernel/storage/storage-engine';
 
 type BrowserStorage = Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>;
 
-function getLocalStorage(): BrowserStorage | null {
+export function getBrowserStorage(): BrowserStorage | null {
   if (typeof window === 'undefined') return null;
 
   try {
@@ -14,7 +14,7 @@ function getLocalStorage(): BrowserStorage | null {
 
 export class LocalStorageEngine implements StorageEngine {
   public getItem<T>(key: string): T | null {
-    const storage = getLocalStorage();
+    const storage = getBrowserStorage();
     if (!storage) return null;
 
     let rawValue: string | null = null;
@@ -34,7 +34,7 @@ export class LocalStorageEngine implements StorageEngine {
   }
 
   public setItem<T>(key: string, value: T): void {
-    const storage = getLocalStorage();
+    const storage = getBrowserStorage();
     if (!storage) return;
 
     try {
@@ -45,7 +45,7 @@ export class LocalStorageEngine implements StorageEngine {
   }
 
   public removeItem(key: string): void {
-    const storage = getLocalStorage();
+    const storage = getBrowserStorage();
     if (!storage) return;
 
     try {

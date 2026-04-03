@@ -1,0 +1,5 @@
+$ npm run static:check
+
+> azkar-app-next@0.1.0 static:check
+> node ./tools/static-shims.mjs --check
+

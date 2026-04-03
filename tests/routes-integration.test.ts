@@ -46,7 +46,7 @@ describe('route-level integration', () => {
     });
     useTasksStore.setState({
       items: initialTasks.map((item, index) => ({ ...item, completed: index < 2 })),
-      dailyCompletions: { [todayKey]: ['wird-morning'] },
+      dailyCompletions: { [todayKey]: ['wird-morning', 'wird-evening'] },
     });
     useMasbahaStore.setState({ currentTarget: 100, dailyCounts: { [todayKey]: 77 } });
     useAzkarStore.setState({ completedByDate: { [todayKey]: ['azkar-1', 'azkar-2'] } });
@@ -87,15 +87,17 @@ describe('route-level integration', () => {
     const markup = renderRouteWithShell({ path: '/', page: createElement(HomePage) });
 
     assert.match(markup, /الرئيسية/);
+    assert.match(markup, /أولوية اليوم/);
+    assert.match(markup, /تابع من حيث توقفت|جرعة اليوم الخفيفة/);
     assert.match(markup, /يوسف/);
     assert.match(markup, /2\/4/);
     assert.match(markup, /77/);
     assert.match(markup, /البقرة/);
-    assert.match(markup, /قصة موسى/);
-    assert.match(markup, /أنجزت 1 مهمة اليوم/);
-    assert.match(markup, /أسماء اليوم/);
+    assert.match(markup, /القصص/);
+    assert.match(markup, /الأسماء/);
+    assert.match(markup, /ابدأ من الأساسيات/);
     assert.match(markup, /الأذكار/);
-    assert.match(markup, /الملف/);
+    assert.match(markup, /الإعدادات/);
   });
 
   it('renders tasks route with personal group state and delete affordance', () => {
@@ -185,7 +187,7 @@ describe('route-level integration', () => {
     const markup = renderRouteWithShell({ path: '/quran', page: createElement(QuranPage) });
 
     assert.match(markup, /يوسف/);
-    assert.match(markup, /جاري تحميل السورة…/);
+    assert.match(markup, /جاري تحميل السورة/);
     assert.match(markup, /تعذر تحميل السورة المطلوبة\./);
     assert.match(markup, /0 آية/);
     assert.doesNotMatch(markup, /﴿1﴾/);
@@ -207,7 +209,7 @@ describe('route-level integration', () => {
 
     assert.match(markup, /فهرس السور/);
     assert.match(markup, /لا توجد نتائج/);
-    assert.match(markup, /جرّب اسم سورة آخر أو اكتب رقم السورة مباشرة/);
+    assert.match(markup, /جرّب اسم سورة آخر أو امسح البحث الحالي لعرض الفهرس كاملًا/);
   });
 
   it('renders settings route from auth and preferences stores', () => {
@@ -221,10 +223,11 @@ describe('route-level integration', () => {
     const markup = renderRouteWithShell({ path: '/settings', page: createElement(SettingsPage) });
 
     assert.match(markup, /الإعدادات/);
-    assert.match(markup, /dark/);
-    assert.match(markup, /مسجل كـ يوسف/);
+    assert.match(markup, /داكن/);
+    assert.match(markup, /مسجّل كـ/);
+    assert.match(markup, /يوسف/);
     assert.match(markup, /تسجيل الخروج/);
-    assert.match(markup, /فتح الملف الشخصي/);
+    assert.match(markup, /الملف الشخصي/);
     assert.doesNotMatch(markup, /أضف متغيرات VITE_FIREBASE_\*/);
     assert.match(markup, /عن التطبيق/);
     assert.match(markup, /سياسة الخصوصية/);
@@ -263,11 +266,11 @@ describe('route-level integration', () => {
 
     assert.match(markup, /قسم الأذكار/);
     assert.match(markup, /أذكار الصباح/);
-    assert.match(markup, /تصنيفات حديثة/);
+    assert.match(markup, /جلسات سريعة/);
     assert.match(markup, /أصبحنا وأصبح الملك لله/);
     assert.match(markup, /التكرار 1/);
     assert.match(markup, /تم اليوم/);
-    assert.match(markup, /تم إنجاز 1 من 2 اليوم/);
+    assert.match(markup, /أنجزت 1 من 2 اليوم/);
   });
 
   it('renders duas route with selected category hydration, sources, favorites, and completion badges', () => {
@@ -479,10 +482,11 @@ describe('route-level integration', () => {
     assert.match(markup, /المهام المنجزة/);
     assert.match(markup, /معدل الإنجاز الحالي/);
     assert.match(markup, /50%/);
-    assert.match(markup, /historical aggregation = 2 مهمة و3 ذكرًا و1 دعاءً و1 قصة و2 اسمًا و77 تسبيحة و110 آية ضمن الفلتر المختار\./);
-    assert.match(markup, /آخر سورة محفوظة = الكهف\./);
-    assert.match(markup, /مفضلة الأدعية/);
-    assert.match(markup, /سلسلة النشاط المركبة/);
+    assert.match(markup, /2 \/ 4 من المهام الحالية/);
+    assert.match(markup, /آخر سورة/);
+    assert.match(markup, /الكهف/);
+    assert.match(markup, /أدعية في الفترة/);
+    assert.match(markup, /أسماء في الفترة/);
   });
 
   it('renders profile route with signed-in account snapshot and internal navigation links', () => {
@@ -499,8 +503,8 @@ describe('route-level integration', () => {
     assert.match(markup, /يوسف/);
     assert.match(markup, /yousef@example\.com/);
     assert.match(markup, /جلسة نشطة/);
-    assert.match(markup, /Firebase Auth فقط/);
-    assert.match(markup, /dark/);
+    assert.match(markup, /داكن/);
+    assert.match(markup, /داكن/);
     assert.match(markup, /سياسة الخصوصية/);
     assert.match(markup, /تواصل معنا/);
   });
@@ -513,9 +517,8 @@ describe('route-level integration', () => {
 
     assert.match(markup, /الملف الشخصي/);
     assert.match(markup, /زائر/);
-    assert.match(markup, /بدون جلسة دخول حالياً/);
-    assert.match(markup, /غير مهيأ/);
-    assert.match(markup, /local-first/);
+    assert.match(markup, /بدون حساب مسجّل/);
+    assert.match(markup, /وضع محلي/);
     assert.match(markup, /الإعدادات/);
   });
 
@@ -535,7 +538,7 @@ describe('route-level integration', () => {
     assert.match(markup, /سياسة الخصوصية/);
     assert.match(markup, /Firebase/);
     assert.match(markup, /تسجيل الدخول فقط/);
-    assert.match(markup, /local-first/);
+    assert.match(markup, /الإعدادات/);
     assert.doesNotMatch(markup, /إعلانات مكافآت/);
     assert.match(markup, /لا نستخدم Firestore/);
   });

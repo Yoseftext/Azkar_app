@@ -1,0 +1,6 @@
+$ npm run verify:browser
+
+> azkar-app-next@0.1.0 verify:browser
+> node ./tools/verify-browser-runtime.mjs
+
+Browser runtime verification passed.

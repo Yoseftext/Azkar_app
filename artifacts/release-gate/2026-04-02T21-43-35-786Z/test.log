@@ -1,0 +1,719 @@
+
+> azkar-app-next@0.1.0 test
+> node ./tools/run-tests.mjs
+
+
+=== tests/azkar-store.test.ts ===
+TAP version 13
+# Subtest: azkar store initializes persisted state and resolves invalid selected category on load
+ok 1 - azkar store initializes persisted state and resolves invalid selected category on load
+  ---
+  duration_ms: 7.714709
+  type: 'test'
+  ...
+# Subtest: azkar store tracks category selection and daily completion progress
+ok 2 - azkar store tracks category selection and daily completion progress
+  ---
+  duration_ms: 0.693367
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 800.849405
+
+=== tests/browser-lifecycle-runtime.test.ts ===
+TAP version 13
+# Subtest: subscribeFocusAndVisibleResume coalesces duplicate resume bursts but still fires on later resumes
+ok 1 - subscribeFocusAndVisibleResume coalesces duplicate resume bursts but still fires on later resumes
+  ---
+  duration_ms: 173.446876
+  type: 'test'
+  ...
+# Subtest: subscribeOnlineOffline wires browser online/offline listeners with cleanup
+ok 2 - subscribeOnlineOffline wires browser online/offline listeners with cleanup
+  ---
+  duration_ms: 0.457399
+  type: 'test'
+  ...
+# Subtest: isDocumentVisible safely defaults when document is missing
+ok 3 - isDocumentVisible safely defaults when document is missing
+  ---
+  duration_ms: 0.414921
+  type: 'test'
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 3
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 897.595724
+
+=== tests/component-interactions.test.ts ===
+TAP version 13
+# Subtest: SettingsPage DOM interactions toggle theme and invoke sign out action
+ok 1 - SettingsPage DOM interactions toggle theme and invoke sign out action
+  ---
+  duration_ms: 43.607278
+  type: 'test'
+  ...
+# Subtest: QuranPage DOM interactions update search and open then close the reader
+ok 2 - QuranPage DOM interactions update search and open then close the reader
+  ---
+  duration_ms: 60.918095
+  type: 'test'
+  ...
+# Subtest: DuasPage DOM interactions toggle favorite and completion through visible controls
+ok 3 - DuasPage DOM interactions toggle favorite and completion through visible controls
+  ---
+  duration_ms: 13.797373
+  type: 'test'
+  ...
+# Subtest: StoriesPage DOM interactions load more items and toggle favorites inside the selected category
+ok 4 - StoriesPage DOM interactions load more items and toggle favorites inside the selected category
+  ---
+  duration_ms: 13.905195
+  type: 'test'
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 4
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1803.83069
+
+=== tests/date.test.ts ===
+TAP version 13
+# Subtest: getLocalDateKey uses local calendar date without utc drift
+ok 1 - getLocalDateKey uses local calendar date without utc drift
+  ---
+  duration_ms: 1.669835
+  type: 'test'
+  ...
+# Subtest: getDateKeysForTrailingDays returns ascending local keys and handles non-positive input safely
+ok 2 - getDateKeysForTrailingDays returns ascending local keys and handles non-positive input safely
+  ---
+  duration_ms: 0.867049
+  type: 'test'
+  ...
+# Subtest: parseDateKey rejects impossible calendar dates and month comparisons ignore invalid keys
+ok 3 - parseDateKey rejects impossible calendar dates and month comparisons ignore invalid keys
+  ---
+  duration_ms: 0.597019
+  type: 'test'
+  ...
+# Subtest: trimRecordToRecentDays compares by local date key and drops stale/invalid entries
+ok 4 - trimRecordToRecentDays compares by local date key and drops stale/invalid entries
+  ---
+  duration_ms: 0.622241
+  type: 'test'
+  ...
+# Subtest: countTrailingActiveDays stops at the first gap even with unordered duplicate keys
+ok 5 - countTrailingActiveDays stops at the first gap even with unordered duplicate keys
+  ---
+  duration_ms: 8.8869
+  type: 'test'
+  ...
+# Subtest: getDayIndex is deterministic for a frozen day
+ok 6 - getDayIndex is deterministic for a frozen day
+  ---
+  duration_ms: 0.252205
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 745.190384
+
+=== tests/day-transition-runtime.test.ts ===
+TAP version 13
+# Subtest: day transition runtime announces immediately when the day changes while visible
+ok 1 - day transition runtime announces immediately when the day changes while visible
+  ---
+  duration_ms: 1.107976
+  type: 'test'
+  ...
+# Subtest: day transition runtime defers hidden day changes and flushes once on resume
+ok 2 - day transition runtime defers hidden day changes and flushes once on resume
+  ---
+  duration_ms: 0.372157
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 738.337005
+
+=== tests/duas-store.test.ts ===
+TAP version 13
+# Subtest: duas store initializes persisted values and restores a valid selected category on load
+ok 1 - duas store initializes persisted values and restores a valid selected category on load
+  ---
+  duration_ms: 6.825264
+  type: 'test'
+  ...
+# Subtest: duas store tracks favorites, completion, and category recency
+ok 2 - duas store tracks favorites, completion, and category recency
+  ---
+  duration_ms: 8.511583
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 934.398715
+
+=== tests/load-quran-runtime.test.ts ===
+TAP version 13
+# Subtest: real quran loader exposes stable summary and normalized filtering against metadata
+ok 1 - real quran loader exposes stable summary and normalized filtering against metadata
+  ---
+  duration_ms: 2.327182
+  type: 'test'
+  ...
+# Subtest: real quran loader preloads and loads actual surah ayahs from split JSON files
+ok 2 - real quran loader preloads and loads actual surah ayahs from split JSON files
+  ---
+  duration_ms: 0.91238
+  type: 'test'
+  ...
+# Subtest: real quran loader rejects invalid surah numbers and tolerates invalid preloads
+ok 3 - real quran loader rejects invalid surah numbers and tolerates invalid preloads
+  ---
+  duration_ms: 0.867957
+  type: 'test'
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 3
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 785.268183
+
+=== tests/loaders.test.ts ===
+TAP version 13
+# Subtest: azkar loader normalizes categories and supports text filtering
+ok 1 - azkar loader normalizes categories and supports text filtering
+  ---
+  duration_ms: 8.43519
+  type: 'test'
+  ...
+# Subtest: dua loader normalizes categories and summaries
+ok 2 - dua loader normalizes categories and summaries
+  ---
+  duration_ms: 63.804946
+  type: 'test'
+  ...
+# Subtest: names loader supports search and deterministic day selection
+ok 3 - names loader supports search and deterministic day selection
+  ---
+  duration_ms: 4.910761
+  type: 'test'
+  ...
+# Subtest: names normalization applies fallbacks and robust arabic search normalization
+ok 4 - names normalization applies fallbacks and robust arabic search normalization
+  ---
+  duration_ms: 1.106435
+  type: 'test'
+  ...
+# Subtest: stories loader normalizes stories and supports deep content filtering
+ok 5 - stories loader normalizes stories and supports deep content filtering
+  ---
+  duration_ms: 12.505017
+  type: 'test'
+  ...
+# Subtest: stories normalization drops invalid items, filters empty categories, and builds stable excerpts
+ok 6 - stories normalization drops invalid items, filters empty categories, and builds stable excerpts
+  ---
+  duration_ms: 2.499755
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 966.190596
+
+=== tests/masbaha-selectors.test.ts ===
+TAP version 13
+# Subtest: masbaha selectors compute batch and ratio safely around target boundaries
+ok 1 - masbaha selectors compute batch and ratio safely around target boundaries
+  ---
+  duration_ms: 1.140679
+  type: 'test'
+  ...
+# Subtest: masbaha selectors derive today, last 7 days, current month, and streak from daily counts
+ok 2 - masbaha selectors derive today, last 7 days, current month, and streak from daily counts
+  ---
+  duration_ms: 8.859908
+  type: 'test'
+  ...
+# Subtest: masbaha phrase rotation advances only for built-in phrases and preserves unknown custom phrase
+ok 3 - masbaha phrase rotation advances only for built-in phrases and preserves unknown custom phrase
+  ---
+  duration_ms: 0.432804
+  type: 'test'
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 3
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 723.96373
+
+=== tests/masbaha-store.test.ts ===
+TAP version 13
+# Subtest: masbaha increments counters and rotates phrase on target completion
+ok 1 - masbaha increments counters and rotates phrase on target completion
+  ---
+  duration_ms: 2.370029
+  type: 'test'
+  ...
+# Subtest: masbaha validates custom phrases and removes them safely
+ok 2 - masbaha validates custom phrases and removes them safely
+  ---
+  duration_ms: 1.668601
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 970.329194
+
+=== tests/names-store.test.ts ===
+TAP version 13
+# Subtest: names store initializes persisted values and restores a valid selected item on load
+ok 1 - names store initializes persisted values and restores a valid selected item on load
+  ---
+  duration_ms: 7.188135
+  type: 'test'
+  ...
+# Subtest: names store updates visible selection, favorites, and daily completion
+ok 2 - names store updates visible selection, favorites, and daily completion
+  ---
+  duration_ms: 1.039442
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 898.883533
+
+=== tests/notifications-lifecycle.test.ts ===
+TAP version 13
+# Subtest: checkAndFire does not re-fire an already-fired slot when multiple slots share the same minute
+ok 1 - checkAndFire does not re-fire an already-fired slot when multiple slots share the same minute
+  ---
+  duration_ms: 1.692131
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 825.154667
+
+=== tests/online-status-runtime.test.ts ===
+TAP version 13
+# Subtest: readNavigatorOnlineStatus defaults to true when navigator is missing or incomplete
+ok 1 - readNavigatorOnlineStatus defaults to true when navigator is missing or incomplete
+  ---
+  duration_ms: 1.185561
+  type: 'test'
+  ...
+# Subtest: online status transition guard only fires on real state transitions
+ok 2 - online status transition guard only fires on real state transitions
+  ---
+  duration_ms: 0.855889
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 721.667959
+
+=== tests/preferences-storage-auth.test.ts ===
+TAP version 13
+# Subtest: LocalStorageEngine tolerates invalid JSON and storage access failures
+ok 1 - LocalStorageEngine tolerates invalid JSON and storage access failures
+  ---
+  duration_ms: 1.224906
+  type: 'test'
+  ...
+# Subtest: preferences store normalizes invalid persisted theme and keeps system theme live
+ok 2 - preferences store normalizes invalid persisted theme and keeps system theme live
+  ---
+  duration_ms: 0.734783
+  type: 'test'
+  ...
+# Subtest: hasRequiredFirebaseEnv ignores blank values and accepts trimmed configured env
+ok 3 - hasRequiredFirebaseEnv ignores blank values and accepts trimmed configured env
+  ---
+  duration_ms: 0.374495
+  type: 'test'
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 3
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 748.802405
+
+=== tests/pwa-runtime.test.ts ===
+TAP version 13
+# Subtest: pwa cleanup removes only legacy caches
+ok 1 - pwa cleanup removes only legacy caches
+  ---
+  duration_ms: 1.725067
+  type: 'test'
+  ...
+# Subtest: pwa cleanup unregisters unexpected service workers and stale registrations
+ok 2 - pwa cleanup unregisters unexpected service workers and stale registrations
+  ---
+  duration_ms: 0.627962
+  type: 'test'
+  ...
+# Subtest: initializePwaRuntime exits safely when service workers are unavailable
+ok 3 - initializePwaRuntime exits safely when service workers are unavailable
+  ---
+  duration_ms: 0.414489
+  type: 'test'
+  ...
+# Subtest: initializePwaRuntime registers the current worker and defers activation until explicit approval
+ok 4 - initializePwaRuntime registers the current worker and defers activation until explicit approval
+  ---
+  duration_ms: 2.072075
+  type: 'test'
+  ...
+# Subtest: initializePwaRuntime announces updatefound and promotes installed worker only after approval
+ok 5 - initializePwaRuntime announces updatefound and promotes installed worker only after approval
+  ---
+  duration_ms: 0.58027
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 781.273027
+
+=== tests/quran-store.test.ts ===
+TAP version 13
+# Subtest: quran initialize normalizes persisted bookmark, recent surahs, and daily readings
+ok 1 - quran initialize normalizes persisted bookmark, recent surahs, and daily readings
+  ---
+  duration_ms: 2.855344
+  type: 'test'
+  ...
+# Subtest: quran store opens surah, resumes bookmark, and clears bookmark safely
+ok 2 - quran store opens surah, resumes bookmark, and clears bookmark safely
+  ---
+  duration_ms: 1.04732
+  type: 'test'
+  ...
+# Subtest: quran store surfaces loader errors without leaving loading state stuck
+ok 3 - quran store surfaces loader errors without leaving loading state stuck
+  ---
+  duration_ms: 0.551922
+  type: 'test'
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 3
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 811.022769
+
+=== tests/routes-integration.test.ts ===
+TAP version 13
+# Subtest: route-level integration
+    # Subtest: renders home dashboard metrics from multiple stores inside the shell header
+    ok 1 - renders home dashboard metrics from multiple stores inside the shell header
+      ---
+      duration_ms: 19.584783
+      type: 'test'
+      ...
+    # Subtest: renders tasks route with personal group state and delete affordance
+    ok 2 - renders tasks route with personal group state and delete affordance
+      ---
+      duration_ms: 4.477752
+      type: 'test'
+      ...
+    # Subtest: renders quran route with bookmark banner and recent surah shortcuts
+    ok 3 - renders quran route with bookmark banner and recent surah shortcuts
+      ---
+      duration_ms: 40.673102
+      type: 'test'
+      ...
+    # Subtest: renders quran reader route with active surah content, bookmark context, and recent shortcuts while the reader is open
+    ok 4 - renders quran reader route with active surah content, bookmark context, and recent shortcuts while the reader is open
+      ---
+      duration_ms: 3.876038
+      type: 'test'
+      ...
+    # Subtest: renders quran reader loading and error states without leaking stale verse content
+    ok 5 - renders quran reader loading and error states without leaking stale verse content
+      ---
+      duration_ms: 3.650842
+      type: 'test'
+      ...
+    # Subtest: renders quran index empty state when search does not match any surah
+    ok 6 - renders quran index empty state when search does not match any surah
+      ---
+      duration_ms: 2.839544
+      type: 'test'
+      ...
+    # Subtest: renders settings route from auth and preferences stores
+    ok 7 - renders settings route from auth and preferences stores
+      ---
+      duration_ms: 4.604333
+      type: 'test'
+      ...
+    # Subtest: renders azkar route with filtered categories, recent chips, and item-level progress state
+    ok 8 - renders azkar route with filtered categories, recent chips, and item-level progress state
+      ---
+      duration_ms: 4.922994
+      type: 'test'
+      ...
+    # Subtest: renders duas route with selected category hydration, sources, favorites, and completion badges
+    ok 9 - renders duas route with selected category hydration, sources, favorites, and completion badges
+      ---
+      duration_ms: 9.391004
+      type: 'test'
+      ...
+    # Subtest: renders stories route with batch-aware category state, load-more affordance, and selected story hydration state
+    ok 10 - renders stories route with batch-aware category state, load-more affordance, and selected story hydration state
+      ---
+      duration_ms: 6.263918
+      type: 'test'
+      ...
+    # Subtest: renders non-bottom-nav route metadata for names of allah with selected detail
+    ok 11 - renders non-bottom-nav route metadata for names of allah with selected detail
+      ---
+      duration_ms: 5.395166
+      type: 'test'
+      ...
+    # Subtest: renders stats route from aggregated snapshots across all feature stores
+    ok 12 - renders stats route from aggregated snapshots across all feature stores
+      ---
+      duration_ms: 6.399275
+      type: 'test'
+      ...
+    # Subtest: renders profile route with signed-in account snapshot and internal navigation links
+    ok 13 - renders profile route with signed-in account snapshot and internal navigation links
+      ---
+      duration_ms: 4.002188
+      type: 'test'
+      ...
+    # Subtest: renders profile route guest fallback when auth is not configured
+    ok 14 - renders profile route guest fallback when auth is not configured
+      ---
+      duration_ms: 3.491776
+      type: 'test'
+      ...
+    # Subtest: renders unified about route inside the app shell instead of legacy standalone html
+    ok 15 - renders unified about route inside the app shell instead of legacy standalone html
+      ---
+      duration_ms: 4.867678
+      type: 'test'
+      ...
+    # Subtest: renders privacy route with current architecture guarantees instead of legacy ad-sync text
+    ok 16 - renders privacy route with current architecture guarantees instead of legacy ad-sync text
+      ---
+      duration_ms: 4.248173
+      type: 'test'
+      ...
+    # Subtest: renders contact route with official mail actions and internal legal links
+    ok 17 - renders contact route with official mail actions and internal legal links
+      ---
+      duration_ms: 4.887494
+      type: 'test'
+      ...
+    1..17
+ok 1 - route-level integration
+  ---
+  duration_ms: 135.204927
+  type: 'suite'
+  ...
+1..1
+# tests 17
+# suites 1
+# pass 17
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1909.97244
+
+=== tests/stats-aggregators.test.ts ===
+TAP version 13
+# Subtest: stats dashboard aggregates all feature snapshots coherently
+ok 1 - stats dashboard aggregates all feature snapshots coherently
+  ---
+  duration_ms: 10.63597
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 856.493466
+
+=== tests/stories-store.test.ts ===
+TAP version 13
+# Subtest: stories store initializes persisted state and falls back to first available story when persisted selection is invalid
+ok 1 - stories store initializes persisted state and falls back to first available story when persisted selection is invalid
+  ---
+  duration_ms: 15.073137
+  type: 'test'
+  ...
+# Subtest: stories store tracks explicit selection, favorites, daily reading progress, and summary batch expansion
+ok 2 - stories store tracks explicit selection, favorites, daily reading progress, and summary batch expansion
+  ---
+  duration_ms: 11.16675
+  type: 'test'
+  ...
+# Subtest: stories store ignores blank selections and hydrates all summaries when search is active
+ok 3 - stories store ignores blank selections and hydrates all summaries when search is active
+  ---
+  duration_ms: 21.000334
+  type: 'test'
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 3
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1017.576338
+
+=== tests/tasks-store.test.ts ===
+TAP version 13
+# Subtest: tasks initialize merges defaults with persisted personal tasks and resets stale day state
+ok 1 - tasks initialize merges defaults with persisted personal tasks and resets stale day state
+  ---
+  duration_ms: 2.006978
+  type: 'test'
+  ...
+# Subtest: tasks store tracks daily completions and blocks deleting default tasks
+ok 2 - tasks store tracks daily completions and blocks deleting default tasks
+  ---
+  duration_ms: 0.972722
+  type: 'test'
+  ...
+# Subtest: tasks store adds and removes personal tasks cleanly
+ok 3 - tasks store adds and removes personal tasks cleanly
+  ---
+  duration_ms: 0.608532
+  type: 'test'
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 3
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 818.33765
+
+=== tests/toast-store.test.ts ===
+TAP version 13
+# Subtest: showToast dedupes identical active toasts
+ok 1 - showToast dedupes identical active toasts
+  ---
+  duration_ms: 1.49246
+  type: 'test'
+  ...
+# Subtest: showToast keeps different toast types/messages separate
+ok 2 - showToast keeps different toast types/messages separate
+  ---
+  duration_ms: 0.381601
+  type: 'test'
+  ...
+# Subtest: toast store trims active toasts to a bounded count
+ok 3 - toast store trims active toasts to a bounded count
+  ---
+  duration_ms: 0.979587
+  type: 'test'
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 3
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4199.903297

@@ -1,96 +1,128 @@
-import { NavLink } from 'react-router-dom';
 import { AppCard } from '@/shared/ui/primitives/AppCard';
+import { InteractiveTile } from '@/shared/ui/primitives/InteractiveTile';
+import { StatTile } from '@/shared/ui/primitives/StatTile';
 import { useAuthStore } from '@/kernel/auth/auth-store';
 import { usePreferencesStore } from '@/kernel/preferences/preferences-store';
+import { COLOR_THEME_SUMMARY_LABELS, THEME_MODE_SUMMARY_LABELS, TEXT_SIZE_LABELS } from '@/kernel/preferences/preferences-labels';
+import { useTasksStore } from '@/features/tasks/state/tasks-store';
+import { useMasbahaStore } from '@/features/masbaha/state/masbaha-store';
+import { useQuranStore } from '@/features/quran/state/quran-store';
+import { useAzkarStore } from '@/features/azkar/state/azkar-store';
+import { useDuasStore } from '@/features/duas/state/duas-store';
+import { useNamesOfAllahStore } from '@/features/names-of-allah/state/names-store';
+import { getLocalDateKey } from '@/shared/lib/date';
+import { buildDailyPlan } from '@/features/home/domain/daily-plan';
+import { buildWeeklyReflection } from '@/features/stats/domain/stats-reflection';
+import { buildProfileHub } from '@/features/profile/domain/profile-hub';
+import { ProfileHubCard } from '@/features/profile/components/ProfileHubCard';
 
-const profileLinks = [
-  { to: '/settings', title: 'الإعدادات', body: 'إدارة الثيم وتسجيل الدخول والخروج من نفس مسار التطبيق.' },
-  { to: '/privacy', title: 'سياسة الخصوصية', body: 'راجع كيف تبقى البيانات local-first وما دور Firebase Auth فقط.' },
-  { to: '/about', title: 'عن التطبيق', body: 'مخطط البنية الحالية والحدود المعمارية في النسخة الجديدة.' },
-  { to: '/contact', title: 'تواصل معنا', body: 'الإبلاغ عن مشكلة أو اقتراح ميزة/قسم جديد.' },
+const PROFILE_LINKS = [
+  { to: '/settings', title: 'الإعدادات', body: 'المظهر، النسخ الاحتياطي، وتسجيل الدخول' },
+  { to: '/stats', title: 'الإحصائيات', body: 'انعكاسك الأسبوعي وملخص نشاطك' },
+  { to: '/achievements', title: 'الإنجازات', body: 'تابع تقدّمك وافتح الإنجازات' },
+  { to: '/privacy', title: 'سياسة الخصوصية', body: 'كيف نحمي بياناتك' },
+  { to: '/contact', title: 'تواصل معنا', body: 'الدعم والاقتراحات' },
 ] as const;
 
 export function ProfilePage() {
-  const user = useAuthStore((state) => state.user);
-  const isReady = useAuthStore((state) => state.isReady);
-  const isConfigured = useAuthStore((state) => state.isConfigured);
-  const themeMode = usePreferencesStore((state) => state.themeMode);
+  const user = useAuthStore((s) => s.user);
+  const isReady = useAuthStore((s) => s.isReady);
+  const isConfigured = useAuthStore((s) => s.isConfigured);
+  const themeMode = usePreferencesStore((s) => s.themeMode);
+  const colorTheme = usePreferencesStore((s) => s.colorTheme);
+  const textSize = usePreferencesStore((s) => s.textSize);
 
-  const sessionState = !isReady
-    ? { label: 'جاري التهيئة', hint: 'يتم التأكد من جلسة الدخول الحالية قبل عرض الحالة النهائية.' }
+  const taskItems = useTasksStore((s) => s.items);
+  const dailyCompletions = useTasksStore((s) => s.dailyCompletions);
+  const masbahaTarget = useMasbahaStore((s) => s.currentTarget);
+  const masbahaTodayCount = useMasbahaStore((s) => s.dailyCounts[getLocalDateKey()] ?? 0);
+  const masbahaDailyCounts = useMasbahaStore((s) => s.dailyCounts);
+  const masbahaTotalCount = useMasbahaStore((s) => s.totalCount);
+  const azkarByDate = useAzkarStore((s) => s.completedByDate);
+  const quranBookmark = useQuranStore((s) => s.bookmark);
+  const quranDailyReadings = useQuranStore((s) => s.dailyReadings);
+  const duasByDate = useDuasStore((s) => s.completedByDate);
+  const favoriteDuaIds = useDuasStore((s) => s.favoriteIds);
+  const namesByDate = useNamesOfAllahStore((s) => s.completedByDate);
+  const favoriteNameIds = useNamesOfAllahStore((s) => s.favoriteIds);
+
+  const accountStatus = !isReady
+    ? 'جاري التحقق…'
     : !isConfigured
-      ? { label: 'غير مهيأ', hint: 'تسجيل الدخول غير مفعل في البيئة الحالية، وسيبقى التطبيق usable بوضع local-first.' }
+      ? 'وضع محلي'
       : user
-        ? { label: 'جلسة نشطة', hint: 'Firebase Auth تستخدم هنا لتسجيل الدخول فقط، بدون Firestore أو مزامنة cloud.' }
-        : { label: 'جاهز بدون جلسة', hint: 'البيئة مهيأة، لكن لا توجد جلسة دخول حالية. يمكنك فتح الإعدادات لتسجيل الدخول عند الحاجة.' };
+        ? 'جلسة نشطة'
+        : 'غير مسجّل';
+
+  const todayKey = getLocalDateKey();
+  const completedTasks = dailyCompletions[todayKey]?.length ?? 0;
+  const firstIncompleteTaskTitle = taskItems.find((item) => !item.completed)?.title ?? null;
+  const dailyPlan = buildDailyPlan({
+    totalTasks: taskItems.length,
+    completedTasks,
+    firstIncompleteTaskTitle,
+    masbahaTodayCount,
+    masbahaTarget,
+    azkarTodayCount: azkarByDate[todayKey]?.length ?? 0,
+    duasTodayCount: duasByDate[todayKey]?.length ?? 0,
+    namesTodayCount: namesByDate[todayKey]?.length ?? 0,
+    quranTodayReadings: quranDailyReadings[todayKey]?.length ?? 0,
+    quranBookmark,
+  });
+
+  const reflection = buildWeeklyReflection({
+    tasks: { items: taskItems, dailyCompletions },
+    masbaha: { currentTarget: masbahaTarget, totalCount: masbahaTotalCount, dailyCounts: masbahaDailyCounts },
+    azkar: { completedByDate: azkarByDate },
+    quran: { bookmark: quranBookmark, dailyReadings: quranDailyReadings },
+    duas: { completedByDate: duasByDate, favoriteIds: favoriteDuaIds },
+    stories: { completedByDate: {}, favoriteIds: [] },
+    names: { completedByDate: namesByDate, favoriteIds: favoriteNameIds },
+    filter: 'week',
+  });
+
+  const hubSummary = buildProfileHub(dailyPlan, reflection);
 
   return (
     <div className="space-y-4">
-      <AppCard title="الملف الشخصي" subtitle="هذا القسم يعرض snapshot واضحة للحساب الحالي، مع إبقاء actions نفسها داخل settings لتجنب God page جديدة.">
+      <AppCard title="حسابك" subtitle="ملخص سريع عن الجلسة الحالية والمظهر النشط في التطبيق.">
         <div className="flex items-center gap-4">
           <img
             src={user?.photoURL ?? '/assets/images/avatar.png'}
-            alt="avatar"
+            referrerPolicy="no-referrer"
+            alt="صورة الملف الشخصي"
             className="h-16 w-16 rounded-full border border-slate-200 object-cover dark:border-slate-700"
           />
-          <div>
-            <p className="text-base font-semibold text-slate-900 dark:text-slate-50">{user?.displayName ?? 'زائر'}</p>
-            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{user?.email ?? 'بدون جلسة دخول حالياً'}</p>
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-base font-semibold text-slate-900 dark:text-slate-50">{user?.displayName ?? 'زائر'}</p>
+            <p className="mt-1 truncate text-sm text-slate-500 dark:text-slate-400">{user?.email ?? 'بدون حساب مسجّل'}</p>
           </div>
         </div>
 
-        <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-4">
-          <ProfileMetric label="الحالة" value={sessionState.label} hint={sessionState.hint} />
-          <ProfileMetric label="المظهر الحالي" value={themeMode} hint="القراءة فقط هنا؛ التعديل يبقى في صفحة الإعدادات." />
-          <ProfileMetric label="المعرّف الحالي" value={user?.uid ?? 'guest'} hint="معرّف الجلسة الحالية فقط؛ لا توجد مزامنة سحابية خلف الكواليس." />
-          <ProfileMetric label="مصدر الحساب" value={isConfigured ? 'Firebase Auth فقط' : 'غير مفعّل'} hint="لا نستخدم Firestore في هذه البنية الجديدة." />
+        <div className="mt-4 grid grid-cols-2 gap-3">
+          <StatTile label="حالة الحساب" value={accountStatus} hint="آخر حالة جلسة" variant="slate" />
+          <StatTile label="المظهر" value={THEME_MODE_SUMMARY_LABELS[themeMode] ?? themeMode} hint={`${COLOR_THEME_SUMMARY_LABELS[colorTheme]} • ${TEXT_SIZE_LABELS[textSize]}`} variant="sky" />
         </div>
       </AppCard>
 
-      <AppCard title="قراءة هندسية سريعة" subtitle="الملف الشخصي يستهلك auth/preferences snapshots فقط، ولا يحتوي منطق sign-in/sign-out نفسه.">
-        <ul className="space-y-2 text-sm leading-6 text-slate-700 dark:text-slate-200">
-          <li className="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2 dark:border-slate-700 dark:bg-slate-800/80">
-            حالة الجلسة = {sessionState.label}. {sessionState.hint}
-          </li>
-          <li className="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2 dark:border-slate-700 dark:bg-slate-800/80">
-            هذا القسم لا يخلط auth actions مع display-only profile view؛ تنفيذ الدخول والخروج يبقى داخل الإعدادات.
-          </li>
-          <li className="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2 dark:border-slate-700 dark:bg-slate-800/80">
-            التخزين يظل local-first، وحتى مع وجود حساب مسجل لا توجد Firestore sync ولا merge logic legacy.
-          </li>
-        </ul>
+      <ProfileHubCard summary={hubSummary} />
+
+      <AppCard title="نظرة اليوم" subtitle="ملخص قصير يساعدك على فهم أين تقف الآن دون الدخول لكل قسم منفصلًا.">
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+          <StatTile label="ورد اليوم" value={`${dailyPlan.completedTasks}/${dailyPlan.totalTasks || 0}`} hint="ما أُنجز من خطة اليوم" variant="sky" />
+          <StatTile label="التسبيح اليوم" value={String(dailyPlan.masbahaTodayCount)} hint={`الهدف الحالي ${dailyPlan.masbahaTarget}`} variant="emerald" />
+          <StatTile label="الأذكار اليوم" value={String(dailyPlan.azkarTodayCount)} hint="عدد الأذكار المكتملة" variant="amber" />
+          <StatTile label="أيام النشاط" value={String(reflection.activeDays)} hint="سلسلة الحضور الحالية" variant="slate" />
+        </div>
       </AppCard>
 
-      <AppCard title="انتقالات سريعة" subtitle="روابط مرتبطة بالحساب والسياسات بدون مغادرة shell الموحدة.">
+      <AppCard title="خيارات سريعة" subtitle="طرق مختصرة للوصول إلى الإعدادات والإنجازات وصفحات الثقة.">
         <div className="grid gap-3 md:grid-cols-2">
-          {profileLinks.map((item) => (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              className="rounded-[28px] border border-slate-200 bg-slate-50 px-4 py-4 transition hover:border-sky-300 hover:bg-sky-50 dark:border-slate-700 dark:bg-slate-800/70 dark:hover:border-sky-700 dark:hover:bg-slate-800"
-            >
-              <p className="text-sm font-bold text-slate-900 dark:text-slate-50">{item.title}</p>
-              <p className="mt-2 text-xs leading-6 text-slate-500 dark:text-slate-400">{item.body}</p>
-            </NavLink>
+          {PROFILE_LINKS.map((item) => (
+            <InteractiveTile key={item.to} to={item.to} title={item.title} subtitle={item.body} trailing="←" />
           ))}
         </div>
       </AppCard>
-    </div>
-  );
-}
-
-interface ProfileMetricProps {
-  label: string;
-  value: string;
-  hint: string;
-}
-
-function ProfileMetric({ label, value, hint }: ProfileMetricProps) {
-  return (
-    <div className="rounded-3xl bg-slate-50 p-3 dark:bg-slate-800/70">
-      <p className="text-xs text-slate-500 dark:text-slate-400">{label}</p>
-      <p className="mt-2 text-lg font-bold text-slate-900 dark:text-slate-50">{value}</p>
-      <p className="mt-2 text-xs leading-5 text-slate-500 dark:text-slate-400">{hint}</p>
     </div>
   );
 }

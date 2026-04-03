@@ -59,9 +59,12 @@ export function trimRecordToRecentDays<T>(record: Record<string, T>, daysToKeep:
 
 export function countTrailingActiveDays(dateKeysWithActivity: Iterable<string>, baseDate = new Date()): number {
   const activeKeys = new Set(sortDateKeys(dateKeysWithActivity));
-  let streak = 0;
+  if (activeKeys.size === 0) return 0; // EDGE-04: early exit prevents 3650 iterations
 
-  for (let offset = 0; offset < 3650; offset += 1) {
+  let streak = 0;
+  const MAX_STREAK = activeKeys.size; // لا يمكن أن يكون الـ streak أكبر من عدد الأيام النشطة
+
+  for (let offset = 0; offset < MAX_STREAK; offset += 1) {
     const probe = new Date(baseDate);
     probe.setDate(baseDate.getDate() - offset);
     const probeKey = getLocalDateKey(probe);

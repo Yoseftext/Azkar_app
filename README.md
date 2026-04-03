@@ -9,6 +9,7 @@
 - الإحصائيات مبنية على aggregators مشتقة من stores بدل coupling مباشر بين الصفحات.
 - legacy runtime القديمة (`js/*`) أُزيلت من مسار التشغيل، وتم استبدال Service Worker القديمة بمسار حديث ونظيف.
 - الصفحات التعريفية والقانونية (`about/privacy/terms/contact`) أصبحت داخل React router نفسها، مع redirect shims للإصدارات القديمة.
+- redirect shims القديمة تُولد من مصدر واحد عبر `npm run static:sync` ويُتحقق من عدم drift عبر `npm run static:check`.
 - تم نقل المسار الملاحي إلى HashRouter لضمان سلامة التشغيل على static hosting مثل GitHub Pages بدون 404 عند التصفح الداخلي.
 
 ## التشغيل

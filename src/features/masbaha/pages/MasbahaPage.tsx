@@ -1,135 +1,148 @@
-import { useMemo, useState } from 'react';
+/**
+ * ====================================================================
+ * MasbahaPage — صفحة المسبحة
+ * ====================================================================
+ * إصلاح BUG-V3-03:
+ *   input كان uncontrolled (defaultValue) مما يعني أن تغيير currentTarget
+ *   من مصدر خارجي لا يُحدّث ما يراه المستخدم.
+ *   الآن: input controlled مع draftTarget محلي مُزامَن مع store.
+ * ====================================================================
+ */
+import { useEffect, useMemo, useState } from 'react';
+import { AppButton } from '@/shared/ui/primitives/AppButton';
 import { AppCard } from '@/shared/ui/primitives/AppCard';
-import { DEFAULT_MASBAHA_PHRASES, getMasbahaBatchCount, getMasbahaCurrentMonthCount, getMasbahaLast7DaysCount, getMasbahaProgressRatio, getMasbahaTodayCount } from '@/features/masbaha/domain/masbaha-selectors';
+import { AppChip } from '@/shared/ui/primitives/AppChip';
+import { AppTextField } from '@/shared/ui/primitives/AppTextField';
+import { StatTile } from '@/shared/ui/primitives/StatTile';
+import { INPUT_CLASS } from '@/shared/ui/design/ui-classes';
+import { cn } from '@/shared/lib/cn';
+import {
+  DEFAULT_MASBAHA_PHRASES,
+  getMasbahaCurrentMonthCount,
+  getMasbahaLast7DaysCount,
+  getMasbahaTodayCount,
+} from '@/features/masbaha/domain/masbaha-selectors';
+import { buildMasbahaSessionHero, getMasbahaTargetPresets } from '@/features/masbaha/domain/masbaha-session-flow';
+import { MasbahaSessionHero } from '@/features/masbaha/components/MasbahaSessionHero';
+import { MasbahaTargetPresets } from '@/features/masbaha/components/MasbahaTargetPresets';
 import { useMasbahaStore } from '@/features/masbaha/state/masbaha-store';
 
 export function MasbahaPage() {
   const [draftPhrase, setDraftPhrase] = useState('');
   const [feedback, setFeedback] = useState<string | null>(null);
-  const isSilent = useMasbahaStore((state) => state.isSilent);
-  const currentTarget = useMasbahaStore((state) => state.currentTarget);
-  const currentSessionCount = useMasbahaStore((state) => state.currentSessionCount);
-  const totalCount = useMasbahaStore((state) => state.totalCount);
-  const selectedPhrase = useMasbahaStore((state) => state.selectedPhrase);
-  const customPhrases = useMasbahaStore((state) => state.customPhrases);
-  const dailyCounts = useMasbahaStore((state) => state.dailyCounts);
-  const increment = useMasbahaStore((state) => state.increment);
-  const resetSession = useMasbahaStore((state) => state.resetSession);
-  const setTarget = useMasbahaStore((state) => state.setTarget);
-  const toggleSilent = useMasbahaStore((state) => state.toggleSilent);
-  const selectPhrase = useMasbahaStore((state) => state.selectPhrase);
-  const addCustomPhrase = useMasbahaStore((state) => state.addCustomPhrase);
-  const removeCustomPhrase = useMasbahaStore((state) => state.removeCustomPhrase);
 
-  const batchCount = useMemo(() => getMasbahaBatchCount({ currentSessionCount, currentTarget }), [currentSessionCount, currentTarget]);
-  const progressRatio = useMemo(() => getMasbahaProgressRatio({ currentSessionCount, currentTarget }), [currentSessionCount, currentTarget]);
+  const isSilent = useMasbahaStore((s) => s.isSilent);
+  const currentTarget = useMasbahaStore((s) => s.currentTarget);
+  const currentSessionCount = useMasbahaStore((s) => s.currentSessionCount);
+  const totalCount = useMasbahaStore((s) => s.totalCount);
+  const selectedPhrase = useMasbahaStore((s) => s.selectedPhrase);
+  const customPhrases = useMasbahaStore((s) => s.customPhrases);
+  const dailyCounts = useMasbahaStore((s) => s.dailyCounts);
+  const increment = useMasbahaStore((s) => s.increment);
+  const resetSession = useMasbahaStore((s) => s.resetSession);
+  const setTarget = useMasbahaStore((s) => s.setTarget);
+  const toggleSilent = useMasbahaStore((s) => s.toggleSilent);
+  const selectPhrase = useMasbahaStore((s) => s.selectPhrase);
+  const addCustomPhrase = useMasbahaStore((s) => s.addCustomPhrase);
+  const removeCustomPhrase = useMasbahaStore((s) => s.removeCustomPhrase);
+
+  const [draftTarget, setDraftTarget] = useState(String(currentTarget));
+  useEffect(() => {
+    setDraftTarget(String(currentTarget));
+  }, [currentTarget]);
+
   const todayCount = useMemo(() => getMasbahaTodayCount({ dailyCounts }), [dailyCounts]);
-  const last7DaysCount = useMemo(() => getMasbahaLast7DaysCount({ dailyCounts }), [dailyCounts]);
+  const last7Days = useMemo(() => getMasbahaLast7DaysCount({ dailyCounts }), [dailyCounts]);
   const monthCount = useMemo(() => getMasbahaCurrentMonthCount({ dailyCounts }), [dailyCounts]);
   const phrases = [...DEFAULT_MASBAHA_PHRASES, ...customPhrases];
+  const hero = useMemo(
+    () => buildMasbahaSessionHero({ currentSessionCount, currentTarget, selectedPhrase, dailyCounts }),
+    [currentSessionCount, currentTarget, selectedPhrase, dailyCounts],
+  );
+  const targetPresets = useMemo(() => getMasbahaTargetPresets(currentTarget), [currentTarget]);
+
+  function handleTargetCommit() {
+    const parsed = Number(draftTarget);
+    const safe = Number.isFinite(parsed) && parsed > 0 ? Math.floor(parsed) : currentTarget;
+    setTarget(safe);
+    setDraftTarget(String(safe));
+  }
+
+  function handleAddPhrase() {
+    const result = addCustomPhrase(draftPhrase);
+    if (result.ok) {
+      setDraftPhrase('');
+      setFeedback('تمت الإضافة بنجاح.');
+      return;
+    }
+    setFeedback(result.error ?? 'تعذر إضافة الذكر.');
+  }
 
   return (
     <div className="space-y-4">
-      <AppCard title="المسبحة" subtitle="module مستقلة: state منفصلة، persistence منفصلة، وإحصائيات قابلة للتجميع بدون لمس app shell.">
-        <div className="grid grid-cols-2 gap-3">
-          <MetricTile label="جلسة العد" value={String(currentSessionCount)} helper={`الدورة الحالية ${batchCount} / ${currentTarget}`} />
-          <MetricTile label="تسبيح اليوم" value={String(todayCount)} helper="يتجمع تلقائيًا داخل الإحصائيات" />
-          <MetricTile label="آخر 7 أيام" value={String(last7DaysCount)} helper="rolling window" />
-          <MetricTile label="إجمالي الشهر" value={String(monthCount)} helper={`الإجمالي الكلي ${totalCount}`} />
+      <MasbahaSessionHero hero={hero} canReset={currentSessionCount > 0} onIncrement={increment} onReset={resetSession} />
+
+      <AppCard title="ملخص اليوم" subtitle="تابع التسبيح اليومي والجلسة الحالية دون تشتيت.">
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+          <StatTile label="جلسة العد" value={String(currentSessionCount)} hint={`الهدف ${currentTarget}`} variant="sky" />
+          <StatTile label="تسبيح اليوم" value={String(todayCount)} hint="مجموع اليوم الحالي" variant="emerald" />
+          <StatTile label="آخر 7 أيام" value={String(last7Days)} hint="نشاط أسبوعي" variant="amber" />
+          <StatTile label="إجمالي الشهر" value={String(monthCount)} hint={`الكلي ${totalCount}`} variant="slate" />
         </div>
 
-        <div className="mt-4 rounded-3xl bg-slate-50 p-4 dark:bg-slate-800/80">
-          <div className="flex items-start justify-between gap-3">
-            <div>
-              <p className="text-xs text-slate-500 dark:text-slate-400">الذكر الحالي</p>
-              <p className="mt-2 text-xl font-bold text-slate-900 dark:text-slate-50">{selectedPhrase}</p>
-            </div>
-            <button
-              type="button"
-              onClick={toggleSilent}
-              className={[
-                'rounded-2xl px-3 py-2 text-xs font-semibold transition',
-                isSilent
-                  ? 'bg-amber-100 text-amber-900 dark:bg-amber-950/40 dark:text-amber-200'
-                  : 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100',
-              ].join(' ')}
-            >
-              {isSilent ? 'الوضع الصامت مفعّل' : 'الوضع الصامت متوقف'}
-            </button>
-          </div>
-
-          <div className="mt-4 h-3 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
-            <div
-              className="h-full rounded-full bg-sky-500 transition-all"
-              style={{ width: `${Math.min(progressRatio * 100, 100)}%` }}
-            />
-          </div>
-
-          <div className="mt-4 grid grid-cols-2 gap-3">
-            <button
-              type="button"
-              onClick={increment}
-              className="rounded-[28px] bg-sky-600 px-4 py-4 text-base font-bold text-white shadow-sm transition hover:bg-sky-700"
-            >
-              سبح الآن
-            </button>
-            <button
-              type="button"
-              onClick={resetSession}
-              className="rounded-[28px] border border-slate-200 bg-white px-4 py-4 text-sm font-semibold text-slate-700 transition hover:border-rose-300 hover:text-rose-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
-            >
-              تصفير الجلسة
-            </button>
-          </div>
-        </div>
-      </AppCard>
-
-      <AppCard title="إعدادات الدورة">
-        <label className="block text-sm font-semibold text-slate-800 dark:text-slate-100" htmlFor="masbaha-target-input">
-          هدف الدورة
-        </label>
-        <input
-          id="masbaha-target-input"
-          type="number"
-          min={1}
-          inputMode="numeric"
-          defaultValue={currentTarget}
-          onBlur={(event) => setTarget(Number(event.target.value))}
-          className="mt-3 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-sky-400 dark:border-slate-700 dark:bg-slate-800"
-        />
-        <p className="mt-2 text-xs leading-6 text-slate-500 dark:text-slate-400">
-          عند اكتمال الدورة ينتقل التطبيق تلقائيًا إلى الذكر الأساسي التالي، مع بقاء الأذكار المخصصة ثابتة إذا اخترتها يدويًا.
+        <p className="sr-only" aria-live="polite" aria-atomic="true">
+          عدد التسبيحات: {currentSessionCount}
         </p>
       </AppCard>
 
-      <AppCard title="اختيار الذكر">
+      <AppCard title="إعدادات الجلسة" subtitle="اختر هدفًا واضحًا واضبط الذكر الحالي بسرعة.">
+        <div className="space-y-4">
+          <div>
+            <p className="mb-2 text-xs font-semibold text-slate-500 dark:text-slate-300">أهداف سريعة</p>
+            <MasbahaTargetPresets currentTarget={currentTarget} presets={targetPresets} onSelect={setTarget} />
+          </div>
+
+          <AppTextField
+            id="masbaha-target-input"
+            label="هدف الدورة"
+            type="number"
+            min={1}
+            inputMode="numeric"
+            value={draftTarget}
+            onChange={(event) => setDraftTarget(event.target.value)}
+            onBlur={handleTargetCommit}
+            onKeyDown={(event) => { if (event.key === 'Enter') handleTargetCommit(); }}
+          />
+
+          <div className="rounded-[var(--ui-radius-panel)] bg-slate-50 p-3 dark:bg-slate-800/70">
+            <p className="text-xs font-semibold text-slate-500 dark:text-slate-300">الذكر الحالي</p>
+            <div className="mt-3 flex flex-wrap items-center gap-2">
+              <AppChip variant="active" onClick={() => selectPhrase(selectedPhrase)}>{selectedPhrase}</AppChip>
+              <AppButton variant="outline" size="sm" onClick={toggleSilent}>
+                {isSilent ? '🔇 صامت' : '🔊 صوت'}
+              </AppButton>
+            </div>
+            <p className="mt-3 text-xs leading-6 text-slate-500 dark:text-slate-400">
+              عند اكتمال الدورة ينتقل التطبيق تلقائيًا إلى الذكر التالي في الدورة الافتراضية.
+            </p>
+          </div>
+        </div>
+      </AppCard>
+
+      <AppCard title="اختيار الذكر" subtitle="اختر ذكرًا افتراضيًا أو أضف ذكرًا مخصصًا للجلسة.">
         <div className="flex flex-wrap gap-2">
           {phrases.map((phrase) => {
             const isSelected = phrase === selectedPhrase;
             const isCustom = customPhrases.includes(phrase);
-
             return (
               <div key={phrase} className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => selectPhrase(phrase)}
-                  className={[
-                    'rounded-2xl px-4 py-2 text-sm font-semibold transition',
-                    isSelected
-                      ? 'bg-sky-600 text-white'
-                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700',
-                  ].join(' ')}
-                >
+                <AppChip variant={isSelected ? 'active' : 'neutral'} onClick={() => selectPhrase(phrase)}>
                   {phrase}
-                </button>
+                </AppChip>
                 {isCustom ? (
-                  <button
-                    type="button"
-                    onClick={() => removeCustomPhrase(phrase)}
-                    className="rounded-xl px-2 py-1 text-xs font-semibold text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30"
-                  >
+                  <AppButton size="sm" variant="outline" onClick={() => removeCustomPhrase(phrase)}>
                     حذف
-                  </button>
+                  </AppButton>
                 ) : null}
               </div>
             );
@@ -137,48 +150,25 @@ export function MasbahaPage() {
         </div>
       </AppCard>
 
-      <AppCard title="إضافة ذكر مخصص" subtitle="الأذكار المخصصة تبقى معزولة داخل masbaha store ولا تحتاج أي orchestrator خارجي.">
-        <form
-          className="flex gap-2"
-          onSubmit={(event) => {
-            event.preventDefault();
-            const result = addCustomPhrase(draftPhrase);
-            if (result.ok) {
-              setDraftPhrase('');
-              setFeedback('تمت إضافة الذكر وتحديده مباشرة.');
-            } else {
-              setFeedback(result.error ?? 'تعذر إضافة الذكر.');
-            }
-          }}
-        >
+      <AppCard title="إضافة ذكر مخصص" subtitle="أضف ذكرًا تستخدمه كثيرًا لتتابعه ضمن الجلسات بسرعة.">
+        <div className="flex gap-2">
           <input
             value={draftPhrase}
             onChange={(event) => setDraftPhrase(event.target.value)}
+            onKeyDown={(event) => {
+              if (event.key !== 'Enter') return;
+              event.preventDefault();
+              handleAddPhrase();
+            }}
             placeholder="أدخل ذكراً جديداً"
-            className="min-w-0 flex-1 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-sky-400 dark:border-slate-700 dark:bg-slate-800"
+            className={cn('min-w-0 flex-1', INPUT_CLASS)}
           />
-          <button type="submit" className="rounded-2xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white dark:bg-sky-600">
+          <AppButton onClick={handleAddPhrase} variant="secondary">
             حفظ
-          </button>
-        </form>
+          </AppButton>
+        </div>
         {feedback ? <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">{feedback}</p> : null}
       </AppCard>
-    </div>
-  );
-}
-
-interface MetricTileProps {
-  label: string;
-  value: string;
-  helper: string;
-}
-
-function MetricTile({ label, value, helper }: MetricTileProps) {
-  return (
-    <div className="rounded-3xl bg-slate-50 p-3 dark:bg-slate-800/70">
-      <p className="text-xs text-slate-500 dark:text-slate-400">{label}</p>
-      <p className="mt-2 text-2xl font-bold text-slate-900 dark:text-slate-50">{value}</p>
-      <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">{helper}</p>
     </div>
   );
 }

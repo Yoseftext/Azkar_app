@@ -155,7 +155,19 @@ function getCombinedActiveDays(tasks: TasksSnapshot, masbaha: MasbahaSnapshot, a
   return countTrailingActiveDays([...taskDays, ...masbahaDays, ...azkarDays, ...quranDays, ...duaDays, ...storyDays, ...nameDays]);
 }
 
-export function buildStatsDashboard(tasks: TasksSnapshot, masbaha: MasbahaSnapshot, azkar: AzkarSnapshot, quran: QuranSnapshot, duas: DuasSnapshot, stories: StoriesSnapshot, names: NamesSnapshot, filter: PeriodFilter): StatsDashboard {
+export interface BuildStatsInput {
+  tasks: TasksSnapshot;
+  masbaha: MasbahaSnapshot;
+  azkar: AzkarSnapshot;
+  quran: QuranSnapshot;
+  duas: DuasSnapshot;
+  stories: StoriesSnapshot;
+  names: NamesSnapshot;
+  filter: PeriodFilter;
+}
+
+/** OPT-V3-01: 8 params → 1 object — أوضح وأسهل في الاختبار */
+export function buildStatsDashboard({ tasks, masbaha, azkar, quran, duas, stories, names, filter }: BuildStatsInput): StatsDashboard {
   const totalTasks = tasks.items.length;
   const currentCompletedTasks = tasks.items.filter((item) => item.completed).length;
   const taskCompletionRate = totalTasks === 0 ? 0 : Math.round((currentCompletedTasks / totalTasks) * 100);

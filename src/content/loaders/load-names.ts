@@ -1,4 +1,5 @@
 import { getDayIndex } from '@/shared/lib/date';
+import { compareSearchRank, normalizeSearchTerm, scoreSearchMatch } from '@/shared/lib/search';
 
 interface LegacyAllahName {
   name: string;
@@ -20,15 +21,7 @@ export interface LoadedAllahName {
 let namesPromise: Promise<LoadedAllahName[]> | null = null;
 
 function normalizeSearchValue(value: string): string {
-  return value
-    .normalize('NFKD')
-    .replace(/[ً-ٰٟۖ-ۭـ]/g, '')
-    .replace(/[إأآٱ]/g, 'ا')
-    .replace(/ى/g, 'ي')
-    .replace(/ة/g, 'ه')
-    .replace(/\s+/g, ' ')
-    .trim()
-    .toLowerCase();
+  return normalizeSearchTerm(value);
 }
 
 export function normalizeAllahName(item: Partial<LegacyAllahName> | null | undefined, index: number): LoadedAllahName {
@@ -66,8 +59,19 @@ export function filterLoadedAllahNames(items: LoadedAllahName[], query: string):
   const normalizedQuery = normalizeSearchValue(query);
   if (!normalizedQuery) return items;
 
-  const queryParts = normalizedQuery.split(' ').filter(Boolean);
-  return items.filter((item) => queryParts.every((part) => item.normalizedSearch.includes(part)));
+  return items
+    .map((item) => ({
+      item,
+      score: Math.max(
+        scoreSearchMatch(normalizedQuery, item.name),
+        scoreSearchMatch(normalizedQuery, item.description),
+        scoreSearchMatch(normalizedQuery, String(item.order)),
+        scoreSearchMatch(normalizedQuery, item.normalizedSearch),
+      ),
+    }))
+    .filter((entry) => entry.score > 0)
+    .sort((left, right) => compareSearchRank({ score: left.score, value: left.item }, { score: right.score, value: right.item }, (a, b) => a.order - b.order))
+    .map((entry) => entry.item);
 }
 
 export async function loadAllahNamesSummary(): Promise<{ total: number; nameOfTheDay: LoadedAllahName | null }> {

@@ -18,6 +18,31 @@ interface MasbahaStore extends MasbahaState {
 
 const storage = new LocalStorageEngine();
 
+// MISSING-03 FIX: debounce persist بـ 150ms — تمنع 1000 كتابة/ثانية عند الضغط السريع
+let _persistDebounceTimer: ReturnType<typeof setTimeout> | null = null;
+function clearPendingPersist(): void {
+  if (!_persistDebounceTimer) return;
+  clearTimeout(_persistDebounceTimer);
+  _persistDebounceTimer = null;
+}
+
+function persistDebounced(state: MasbahaState): void {
+  clearPendingPersist();
+  _persistDebounceTimer = setTimeout(() => {
+    _persistDebounceTimer = null;
+    persist(state);
+  }, 150);
+}
+
+function persistImmediate(state: MasbahaState): void {
+  clearPendingPersist();
+  persist(state);
+}
+
+export function resetMasbahaStoreRuntimeForTests(): void {
+  clearPendingPersist();
+}
+
 const fallbackState: MasbahaState = {
   isInitialized: false,
   isSilent: false,
@@ -96,30 +121,31 @@ export const useMasbahaStore = create<MasbahaStore>((set, get) => ({
       },
     };
 
-    persist(nextState);
+    // MISSING-03: debounced بدلاً من persist() مباشرة
+    persistDebounced(nextState);
     set(nextState);
   },
   resetSession: () => {
     const nextState = { ...get(), currentSessionCount: 0 };
-    persist(nextState);
+    persistImmediate(nextState);
     set(nextState);
   },
   setTarget: (target) => {
     const safeTarget = Number.isFinite(target) && target > 0 ? Math.floor(target) : get().currentTarget;
     const nextState = { ...get(), currentTarget: safeTarget };
-    persist(nextState);
+    persistImmediate(nextState);
     set(nextState);
   },
   toggleSilent: () => {
     const nextState = { ...get(), isSilent: !get().isSilent };
-    persist(nextState);
+    persistImmediate(nextState);
     set(nextState);
   },
   selectPhrase: (phrase) => {
     const normalizedPhrase = phrase.trim();
     if (!normalizedPhrase) return;
     const nextState = { ...get(), selectedPhrase: normalizedPhrase };
-    persist(nextState);
+    persistImmediate(nextState);
     set(nextState);
   },
   addCustomPhrase: (phrase) => {
@@ -136,7 +162,7 @@ export const useMasbahaStore = create<MasbahaStore>((set, get) => ({
       customPhrases: [normalizedPhrase, ...state.customPhrases],
     };
 
-    persist(nextState);
+    persistImmediate(nextState);
     set(nextState);
     return { ok: true };
   },
@@ -149,7 +175,7 @@ export const useMasbahaStore = create<MasbahaStore>((set, get) => ({
       selectedPhrase: state.selectedPhrase === phrase ? DEFAULT_MASBAHA_PHRASES[0] : state.selectedPhrase,
     };
 
-    persist(nextState);
+    persistImmediate(nextState);
     set(nextState);
   },
 }));

@@ -1,53 +1,110 @@
-const LEGACY_CACHE_PREFIXES = ['azkar-v'];
-const CURRENT_SW_URL = new URL(`${import.meta.env.BASE_URL}sw.js`, window.location.origin).href;
+/**
+ * ====================================================================
+ * PWA Runtime — إدارة Service Worker والتحديثات
+ * ====================================================================
+ * مُقسّم حسب المسؤوليات:
+ *   - pwa-browser: حدود المتصفح و Service Worker APIs
+ *   - pwa-update-state: حالة التحديث المعلّق وإشعار الواجهة
+ *   - pwa-runtime: orchestration فقط
+ * ====================================================================
+ */
+import {
+  addServiceWorkerControllerChangeListener,
+  getCacheStorage,
+  getCurrentServiceWorkerUrl,
+  getServiceWorkerController,
+  getServiceWorkerRegistrations,
+  hasServiceWorkerSupport,
+  registerCurrentServiceWorker,
+  reloadPage,
+  waitForPageLoad,
+} from '@/kernel/pwa/pwa-browser';
+import { applyPendingWorkerUpdate, markPendingWorker, setUpdateAvailableListener } from '@/kernel/pwa/pwa-update-state';
 
-function getRegistrationScriptUrl(registration: ServiceWorkerRegistration): string | null {
-  return registration.active?.scriptURL ?? registration.waiting?.scriptURL ?? registration.installing?.scriptURL ?? null;
+const LEGACY_CACHE_PREFIXES = ['azkar-v'];
+
+export function onUpdateAvailable(callback: () => void): void {
+  setUpdateAvailableListener(callback);
+}
+
+export function applyPendingUpdate(): void {
+  applyPendingWorkerUpdate();
 }
 
 export async function clearLegacyCaches(): Promise<void> {
-  if (!('caches' in window)) return;
+  const cacheStorage = getCacheStorage();
+  if (!cacheStorage) return;
 
-  const cacheNames = await window.caches.keys();
+  const cacheNames = await cacheStorage.keys();
   await Promise.all(
     cacheNames
-      .filter((cacheName) => LEGACY_CACHE_PREFIXES.some((prefix) => cacheName.startsWith(prefix)))
-      .map((cacheName) => window.caches.delete(cacheName)),
+      .filter((name) => LEGACY_CACHE_PREFIXES.some((prefix) => name.startsWith(prefix)))
+      .map((name) => cacheStorage.delete(name)),
   );
 }
 
-export async function unregisterUnexpectedRegistrations(): Promise<void> {
-  if (!('serviceWorker' in navigator)) return;
+function shouldUnregisterRegistration(registration: ServiceWorkerRegistration, currentSwUrl: string | null): boolean {
+  const scriptUrl = registration.active?.scriptURL ?? registration.waiting?.scriptURL ?? registration.installing?.scriptURL ?? null;
+  if (!scriptUrl) return true;
+  return scriptUrl !== currentSwUrl;
+}
 
-  const registrations = await navigator.serviceWorker.getRegistrations();
+export async function unregisterUnexpectedRegistrations(): Promise<void> {
+  if (!hasServiceWorkerSupport()) return;
+
+  const currentSwUrl = getCurrentServiceWorkerUrl();
+  const registrations = await getServiceWorkerRegistrations();
+
   await Promise.all(
     registrations
-      .filter((registration) => getRegistrationScriptUrl(registration) !== CURRENT_SW_URL)
+      .filter((registration) => shouldUnregisterRegistration(registration, currentSwUrl))
       .map((registration) => registration.unregister()),
   );
 }
 
-export async function initializePwaRuntime(): Promise<void> {
-  if (import.meta.env.DEV) return;
-  if (!('serviceWorker' in navigator)) return;
-
-  await clearLegacyCaches();
-  await unregisterUnexpectedRegistrations();
-
-  const registration = await navigator.serviceWorker.register(`${import.meta.env.BASE_URL}sw.js`);
-  await registration.update();
-
+function wireUpdateLifecycle(registration: ServiceWorkerRegistration): void {
   if (registration.waiting) {
-    registration.waiting.postMessage({ action: 'skipWaiting' });
+    markPendingWorker(registration.waiting);
   }
 
   registration.addEventListener('updatefound', () => {
     const installing = registration.installing;
     if (!installing) return;
+
     installing.addEventListener('statechange', () => {
-      if (installing.state === 'installed' && navigator.serviceWorker.controller) {
-        registration.waiting?.postMessage({ action: 'skipWaiting' });
+      if (installing.state === 'installed' && getServiceWorkerController()) {
+        markPendingWorker(installing);
       }
     });
   });
+}
+
+function wireControllerRefresh(): void {
+  let isRefreshing = false;
+  addServiceWorkerControllerChangeListener(() => {
+    if (isRefreshing) return;
+    isRefreshing = true;
+    reloadPage();
+  });
+}
+
+export async function initializePwaRuntime(): Promise<void> {
+  if (import.meta.env.DEV) return;
+  if (!hasServiceWorkerSupport()) return;
+
+  await waitForPageLoad();
+  await clearLegacyCaches();
+  await unregisterUnexpectedRegistrations();
+
+  let registration: ServiceWorkerRegistration;
+  try {
+    registration = await registerCurrentServiceWorker();
+  } catch (error) {
+    console.error('[PWA] Service Worker registration failed:', error);
+    return;
+  }
+
+  wireUpdateLifecycle(registration);
+  wireControllerRefresh();
+  await registration.update();
 }

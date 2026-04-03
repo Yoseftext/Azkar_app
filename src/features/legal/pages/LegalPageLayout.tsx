@@ -19,7 +19,7 @@ export function LegalPageLayout({ content, actions = [], children }: LegalPageLa
       </AppCard>
 
       {actions.length ? (
-        <AppCard title="إجراءات سريعة" subtitle="قنوات واضحة بدل روابط مشتتة أو صفحات منفصلة خارج التطبيق.">
+        <AppCard title="تواصل سريع" subtitle="إجراءات سريعة">
           <div className="grid gap-3 md:grid-cols-3">
             {actions.map((action) => (
               <a
@@ -42,7 +42,7 @@ export function LegalPageLayout({ content, actions = [], children }: LegalPageLa
       {children}
 
       {content.quickLinks?.length ? (
-        <AppCard title="روابط موحدة داخل التطبيق" subtitle="كل الصفحات التعريفية والقانونية أصبحت داخل router نفسه.">
+        <AppCard title="صفحات أخرى">
           <div className="grid gap-3 md:grid-cols-2">
             {content.quickLinks.map((item) => (
               <NavLink

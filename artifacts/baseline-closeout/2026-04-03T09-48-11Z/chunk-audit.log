@@ -1,0 +1,32 @@
+$ npm run audit:chunks
+
+> azkar-app-next@0.1.0 audit:chunks
+> node ./tools/audit-chunks.mjs
+
+Build Chunk Audit
+=================
+Total assets: 141
+JavaScript chunks: 140
+CSS assets: 1
+Tiny JS chunks (<2KB): 29
+Large JS chunks (>=50KB): 18
+Largest JS chunk: react-vendor-7_R7uqif.js (185.77 KB)
+
+Top JavaScript chunks by size:
+- react-vendor-7_R7uqif.js: 185.77 KB
+- quran-surahs-038-045-C-eXT3Dl.js: 125.59 KB
+- quran-surahs-030-037-BInDamOv.js: 124.53 KB
+- quran-surahs-004-005-D9vtXxZ4.js: 121.83 KB
+- quran-surahs-020-024-Bff7btNF.js: 120.55 KB
+- quran-surahs-006-007-BeYLd1gn.js: 120.34 KB
+- quran-surahs-059-083-Bgp3C5O5.js: 118.14 KB
+- quran-surahs-046-058-DRsd3wna.js: 115.97 KB
+- quran-surahs-025-029-CFvtmhM4.js: 115.8 KB
+- quran-surahs-011-015-DvJfFPWT.js: 114.6 KB
+
+Budget thresholds:
+- Total assets <= 200
+- JavaScript chunks <= 180
+- Tiny JS chunks <2KB <= 60
+- Large JS chunks >=50KB <= 18
+- Largest JS chunk <= 320 KB

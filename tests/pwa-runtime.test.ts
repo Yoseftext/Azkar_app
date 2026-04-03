@@ -1,7 +1,13 @@
 import './helpers/environment.ts';
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { clearLegacyCaches, initializePwaRuntime, unregisterUnexpectedRegistrations } from '@/kernel/pwa/pwa-runtime';
+import {
+  applyPendingUpdate,
+  clearLegacyCaches,
+  initializePwaRuntime,
+  onUpdateAvailable,
+  unregisterUnexpectedRegistrations,
+} from '@/kernel/pwa/pwa-runtime';
 
 test('pwa cleanup removes only legacy caches', async () => {
   const deleted = [];
@@ -41,10 +47,11 @@ test('initializePwaRuntime exits safely when service workers are unavailable', a
   assert.ok(true);
 });
 
-test('initializePwaRuntime registers the current worker and asks waiting worker to skip waiting', async () => {
+test('initializePwaRuntime registers the current worker and defers activation until explicit approval', async () => {
   const registerCalls = [];
   const updateCalls = [];
   const waitingMessages = [];
+  let updateAnnouncements = 0;
 
   const registration = {
     waiting: { postMessage: (message) => waitingMessages.push(message) },
@@ -61,24 +68,35 @@ test('initializePwaRuntime registers the current worker and asks waiting worker 
       registerCalls.push(scriptUrl);
       return registration;
     },
+    addEventListener: () => {},
   };
+  onUpdateAvailable(() => {
+    updateAnnouncements += 1;
+  });
 
   await initializePwaRuntime();
 
   assert.deepEqual(registerCalls, ['/sw.js']);
   assert.deepEqual(updateCalls, ['update']);
+  assert.equal(updateAnnouncements, 1);
+  assert.deepEqual(waitingMessages, []);
+
+  applyPendingUpdate();
   assert.deepEqual(waitingMessages, [{ action: 'skipWaiting' }]);
 });
 
-test('initializePwaRuntime handles updatefound and promotes installed worker when controller exists', async () => {
+test('initializePwaRuntime announces updatefound and promotes installed worker only after approval', async () => {
   const waitingMessages = [];
+  let updateAnnouncements = 0;
   let onUpdateFound = null;
   let onStateChange = null;
+  let onControllerChange = null;
 
   const waiting = { postMessage: (message) => waitingMessages.push(message), scriptURL: new URL('/sw.js', window.location.origin).href };
   const installing = {
     state: 'installing',
     scriptURL: new URL('/sw.js', window.location.origin).href,
+    postMessage: (message) => waitingMessages.push(message),
     addEventListener: (eventName, listener) => {
       if (eventName === 'statechange') onStateChange = listener;
     },
@@ -99,7 +117,13 @@ test('initializePwaRuntime handles updatefound and promotes installed worker whe
     controller: {},
     getRegistrations: async () => [],
     register: async () => registration,
+    addEventListener: (eventName, listener) => {
+      if (eventName === 'controllerchange') onControllerChange = listener;
+    },
   };
+  onUpdateAvailable(() => {
+    updateAnnouncements += 1;
+  });
 
   await initializePwaRuntime();
   assert.equal(typeof onUpdateFound, 'function');
@@ -108,5 +132,10 @@ test('initializePwaRuntime handles updatefound and promotes installed worker whe
   installing.state = 'installed';
   onStateChange?.();
 
-  assert.deepEqual(waitingMessages, [{ action: 'skipWaiting' }, { action: 'skipWaiting' }]);
+  assert.equal(updateAnnouncements, 2);
+  assert.deepEqual(waitingMessages, []);
+
+  applyPendingUpdate();
+  assert.deepEqual(waitingMessages, [{ action: 'skipWaiting' }]);
+  assert.equal(typeof onControllerChange, 'function');
 });

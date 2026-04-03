@@ -1,4 +1,5 @@
 import { QURAN_SURAHS, type QuranSurahMeta } from '@/content/loaders/quran-metadata';
+import { compareSearchRank, normalizeSearchTerm, scoreSearchMatch } from '@/shared/lib/search';
 
 export interface QuranAyah {
   chapter: number;
@@ -22,16 +23,7 @@ const surahModules = import.meta.glob<LegacyAyah[]>('../quran/surahs/*.json', {
 const surahCache = new Map<number, QuranAyah[]>();
 
 export function normalizeArabicSearchTerm(text: string): string {
-  return String(text || '')
-    .normalize('NFKC')
-    .replace(/[ً-ٰٟۖ-ۭ]/g, '')
-    .replace(/ـ/g, '')
-    .replace(/[أإآٱ]/g, 'ا')
-    .replace(/ى/g, 'ي')
-    .replace(/ة/g, 'ه')
-    .replace(/\s+/g, ' ')
-    .trim()
-    .toLowerCase();
+  return normalizeSearchTerm(text);
 }
 
 export function getQuranSurahList(): QuranSurahMeta[] {
@@ -46,11 +38,18 @@ export function filterQuranSurahs(query: string): QuranSurahMeta[] {
   const normalizedQuery = normalizeArabicSearchTerm(query);
   if (!normalizedQuery) return QURAN_SURAHS;
 
-  return QURAN_SURAHS.filter((item) => {
-    const matchesName = normalizeArabicSearchTerm(item.surahName).includes(normalizedQuery);
-    const matchesNumber = String(item.surahNumber).includes(query.trim());
-    return matchesName || matchesNumber;
-  });
+  return QURAN_SURAHS
+    .map((item) => ({
+      item,
+      score: Math.max(
+        scoreSearchMatch(normalizedQuery, item.surahName),
+        scoreSearchMatch(normalizedQuery, String(item.surahNumber)),
+        String(item.surahNumber) === query.trim() ? 130 : 0,
+      ),
+    }))
+    .filter((entry) => entry.score > 0)
+    .sort((left, right) => compareSearchRank({ score: left.score, value: left.item }, { score: right.score, value: right.item }, (a, b) => a.surahNumber - b.surahNumber))
+    .map((entry) => entry.item);
 }
 
 export function loadQuranSummary(): { surahCount: number; ayahCount: number } {

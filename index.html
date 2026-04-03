@@ -8,6 +8,39 @@
     <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="icon" href="/icons/icon-192x192.png" />
     <title>أذكار المسلم</title>
+    <script>
+      (() => {
+        const storageKey = 'azkar-next.preferences';
+        const darkQuery = '(prefers-color-scheme: dark)';
+
+        try {
+          const raw = window.localStorage?.getItem(storageKey);
+          const parsed = raw ? JSON.parse(raw) : null;
+          const themeMode = parsed?.themeMode;
+        const colorTheme = parsed?.colorTheme;
+        const textSize = parsed?.textSize;
+        const readingDensity = parsed?.readingDensity;
+        const lineSpacing = parsed?.lineSpacing;
+        const motionMode = parsed?.motionMode;
+        const normalized = themeMode === 'dark' || themeMode === 'light' || themeMode === 'system' ? themeMode : 'system';
+        const resolved = normalized === 'system'
+          ? (window.matchMedia?.(darkQuery).matches ? 'dark' : 'light')
+          : normalized;
+        const normalizedColorTheme = colorTheme === 'sand' || colorTheme === 'emerald' || colorTheme === 'night' || colorTheme === 'sky' ? colorTheme : 'sky';
+        const normalizedTextSize = textSize === 'large' || textSize === 'xlarge' || textSize === 'base' ? textSize : 'base';
+        const normalizedReadingDensity = readingDensity === 'compact' || readingDensity === 'comfortable' ? readingDensity : 'comfortable';
+        const normalizedLineSpacing = lineSpacing === 'spacious' || lineSpacing === 'relaxed' ? lineSpacing : 'relaxed';
+        const normalizedMotionMode = motionMode === 'reduced' || motionMode === 'full' ? motionMode : 'full';
+
+        document.documentElement.classList.toggle('dark', resolved === 'dark');
+        document.documentElement.dataset.uiTheme = normalizedColorTheme;
+        document.documentElement.dataset.textSize = normalizedTextSize;
+        document.documentElement.dataset.readingDensity = normalizedReadingDensity;
+        document.documentElement.dataset.lineSpacing = normalizedLineSpacing;
+        document.documentElement.dataset.motion = normalizedMotionMode;
+        } catch {}
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

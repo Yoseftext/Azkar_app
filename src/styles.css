@@ -5,25 +5,121 @@
   font-family: "Noto Sans Arabic", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   background-color: #f8fafc;
   color: #0f172a;
+  --ui-radius-card: 28px;
+  --ui-radius-panel: 24px;
+  --ui-radius-control: 18px;
+  --ui-shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.05);
+  --ui-card-padding: 1rem;
+  --ui-panel-padding: 0.875rem;
+  --ui-control-padding-y: 0.75rem;
+  --ui-body-font-scale: 16px;
+  --ui-body-line-height: 1.7;
+  --ui-reading-line-height: 2.1;
+  --ui-primary-solid: #0284c7;
+  --ui-primary-strong: #0369a1;
+  --ui-primary-contrast: #ffffff;
+  --ui-primary-ring: rgba(2, 132, 199, 0.18);
+  --ui-primary-soft-bg: #e0f2fe;
+  --ui-primary-soft-text: #075985;
+  --ui-surface-glow: rgba(14, 165, 233, 0.08);
+  --ui-reading-surface: #f8fafc;
+  --ui-reading-card: rgba(255, 255, 255, 0.98);
+  --ui-reading-border: rgba(148, 163, 184, 0.28);
+}
+
+html {
+  font-size: var(--ui-body-font-scale);
 }
 
 html.dark {
   color-scheme: dark;
   background-color: #020617;
   color: #e2e8f0;
+  --ui-reading-surface: rgba(15, 23, 42, 0.95);
+  --ui-reading-card: rgba(2, 6, 23, 0.72);
+  --ui-reading-border: rgba(51, 65, 85, 0.75);
+}
+
+html[data-ui-theme='sand'] {
+  --ui-primary-solid: #b7791f;
+  --ui-primary-strong: #9a641a;
+  --ui-primary-ring: rgba(183, 121, 31, 0.18);
+  --ui-primary-soft-bg: #fef3c7;
+  --ui-primary-soft-text: #92400e;
+  --ui-surface-glow: rgba(217, 119, 6, 0.08);
+  --ui-reading-surface: #faf6ef;
+  --ui-reading-card: rgba(255, 251, 245, 0.98);
+}
+
+html[data-ui-theme='emerald'] {
+  --ui-primary-solid: #059669;
+  --ui-primary-strong: #047857;
+  --ui-primary-ring: rgba(5, 150, 105, 0.18);
+  --ui-primary-soft-bg: #d1fae5;
+  --ui-primary-soft-text: #065f46;
+  --ui-surface-glow: rgba(16, 185, 129, 0.08);
+  --ui-reading-surface: #f3fbf7;
+  --ui-reading-card: rgba(250, 255, 252, 0.98);
+}
+
+html[data-ui-theme='night'] {
+  --ui-primary-solid: #4f46e5;
+  --ui-primary-strong: #4338ca;
+  --ui-primary-ring: rgba(79, 70, 229, 0.22);
+  --ui-primary-soft-bg: #e0e7ff;
+  --ui-primary-soft-text: #3730a3;
+  --ui-surface-glow: rgba(99, 102, 241, 0.12);
+  --ui-reading-surface: #eef2ff;
+  --ui-reading-card: rgba(255, 255, 255, 0.98);
+}
+
+html.dark[data-ui-theme='sand'] {
+  --ui-reading-surface: rgba(32, 23, 14, 0.88);
+  --ui-reading-card: rgba(20, 15, 10, 0.82);
+}
+
+html.dark[data-ui-theme='emerald'] {
+  --ui-reading-surface: rgba(7, 23, 18, 0.9);
+  --ui-reading-card: rgba(5, 18, 14, 0.82);
+}
+
+html.dark[data-ui-theme='night'] {
+  --ui-reading-surface: rgba(10, 13, 32, 0.92);
+  --ui-reading-card: rgba(6, 8, 23, 0.84);
+}
+
+html[data-text-size='large'] {
+  --ui-body-font-scale: 17px;
+}
+
+html[data-text-size='xlarge'] {
+  --ui-body-font-scale: 18px;
+}
+
+html[data-reading-density='compact'] {
+  --ui-card-padding: 0.875rem;
+  --ui-panel-padding: 0.75rem;
+  --ui-control-padding-y: 0.625rem;
+}
+
+html[data-line-spacing='spacious'] {
+  --ui-body-line-height: 1.85;
+  --ui-reading-line-height: 2.35;
 }
 
 body {
   min-height: 100vh;
   margin: 0;
+  line-height: var(--ui-body-line-height);
   background:
-    radial-gradient(circle at top, rgba(14, 165, 233, 0.08), transparent 24%),
+    radial-gradient(circle at top, var(--ui-surface-glow), transparent 24%),
     linear-gradient(180deg, rgba(255, 255, 255, 1), rgba(241, 245, 249, 1));
+  transition: background-color 160ms ease, color 160ms ease;
 }
 
 html.dark body {
   background:
-    radial-gradient(circle at top, rgba(14, 165, 233, 0.12), transparent 24%),
+    radial-gradient(circle at top, var(--ui-surface-glow), transparent 24%),
     linear-gradient(180deg, rgba(2, 6, 23, 1), rgba(15, 23, 42, 1));
 }
 
@@ -39,4 +135,67 @@ textarea {
 
 #root {
   min-height: 100vh;
+}
+
+[data-theme="royal"] {
+  --azkar-primary:    #F3D582;
+  --azkar-accent:     #BB9441;
+  --azkar-bg:         #0A2E24;
+  --azkar-card:       rgba(22, 98, 77, 0.3);
+  --azkar-text:       #F3D582;
+  --azkar-text-sub:   #BB9441;
+  --azkar-border:     rgba(243, 213, 130, 0.15);
+  background: radial-gradient(circle at top center, #16624D 0%, #0A2E24 100%);
+  color: var(--azkar-text);
+}
+
+[dir="rtl"], .rtl {
+  direction: rtl;
+  text-align: right;
+}
+
+p, span, h1, h2, h3, h4, button, input, label {
+  font-feature-settings: "kern" 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #94a3b8;
+}
+
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+  color: #64748b;
+}
+
+.app-reading-surface {
+  background: var(--ui-reading-surface);
+  border-color: var(--ui-reading-border);
+}
+
+.app-reading-card {
+  background: var(--ui-reading-card);
+  border-color: var(--ui-reading-border);
+}
+
+.app-reading-text {
+  line-height: var(--ui-reading-line-height);
+}
+
+.app-reading-accent {
+  color: var(--ui-primary-strong);
+}
+
+html.dark .app-reading-accent {
+  color: var(--ui-primary-soft-text);
+}
+
+html[data-motion='reduced'] *,
+html[data-motion='reduced'] *::before,
+html[data-motion='reduced'] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
 }

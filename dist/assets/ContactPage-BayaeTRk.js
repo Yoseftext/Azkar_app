@@ -1,0 +1,1 @@
+import{t as e}from"./react-vendor-7_R7uqif.js";import{n as t,o as n,r}from"./legal-page-content-BLM3FQQH.js";var i=e();function a(){return(0,i.jsx)(n,{content:r,actions:t})}export{a as ContactPage};

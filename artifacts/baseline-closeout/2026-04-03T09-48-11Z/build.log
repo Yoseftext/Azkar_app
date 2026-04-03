@@ -1,0 +1,158 @@
+$ npm run build
+
+> azkar-app-next@0.1.0 build
+> npm run static:sync && node ./node_modules/typescript/bin/tsc --noEmit && node ./node_modules/vite/bin/vite.js build && node ./tools/finalize-dist.mjs
+
+
+> azkar-app-next@0.1.0 static:sync
+> node ./tools/static-shims.mjs
+
+[36mvite v8.0.3 [32mbuilding client environment for production...[36m[39m
+[2Ktransforming...✓ 865 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                                                      3.86 kB │ gzip:  1.24 kB
+dist/assets/index-BhviseIZ.css                                                      43.49 kB │ gzip:  8.55 kB
+dist/assets/AboutPage-DrxiwTVD.js                                                    0.18 kB │ gzip:  0.16 kB
+dist/assets/TermsPage-BnAopTkp.js                                                    0.18 kB │ gzip:  0.16 kB
+dist/assets/PrivacyPage-Bq34bEZh.js                                                  0.18 kB │ gzip:  0.16 kB
+dist/assets/ContactPage-DyXjhqZN.js                                                  0.19 kB │ gzip:  0.17 kB
+dist/assets/AppChip-D2Rrm4S6.js                                                      0.28 kB │ gzip:  0.20 kB
+dist/assets/AppButton-DLV0TYUQ.js                                                    0.32 kB │ gzip:  0.23 kB
+dist/assets/AppTextField-Bu-KhscV.js                                                 0.39 kB │ gzip:  0.27 kB
+dist/assets/StatTile-YcE8R0X-.js                                                     0.49 kB │ gzip:  0.27 kB
+dist/assets/preferences-labels-STsPAHYx.js                                           0.52 kB │ gzip:  0.34 kB
+dist/assets/daily-plan-BBFyQ8oK.js                                                   0.61 kB │ gzip:  0.28 kB
+dist/assets/EmptyState-BlrK9jY0.js                                                   0.67 kB │ gzip:  0.39 kB
+dist/assets/rolldown-runtime-Dw2cE7zH.js                                             0.68 kB │ gzip:  0.41 kB
+dist/assets/state-vendor-_cKH_cJ8.js                                                 0.69 kB │ gzip:  0.42 kB
+dist/assets/search-CumfGi2h.js                                                       0.70 kB │ gzip:  0.43 kB
+dist/assets/firebase-auth-runtime-B4bF8V5l.js                                        0.72 kB │ gzip:  0.42 kB
+dist/assets/storage-keys-BXYWORqA.js                                                 0.72 kB │ gzip:  0.32 kB
+dist/assets/InteractiveTile-Ck-4PpKD.js                                              0.88 kB │ gzip:  0.40 kB
+dist/assets/dua-category-dua-category-15-knowledge-understanding-BsSi-s6m.js         0.94 kB │ gzip:  0.53 kB
+dist/assets/load-names-7bpkuu0_.js                                                   1.00 kB │ gzip:  0.59 kB
+dist/assets/dua-category-dua-category-14-prayer-worship-IwOM-uHW.js                  1.00 kB │ gzip:  0.57 kB
+dist/assets/date-C8rx9bnm.js                                                         1.19 kB │ gzip:  0.58 kB
+dist/assets/dua-category-dua-category-13-family-offspring-CjdIxVp-.js                1.29 kB │ gzip:  0.60 kB
+dist/assets/toast-store-Crlv9e8R.js                                                  1.35 kB │ gzip:  0.68 kB
+dist/assets/azkar-category-azkar-after-prayer-Dkpz5DB6.js                            1.44 kB │ gzip:  0.48 kB
+dist/assets/azkar-category-azkar-sleep-DkRQZqBR.js                                   1.57 kB │ gzip:  0.58 kB
+dist/assets/azkar-category-azkar-wakeup-CM0y2CIf.js                                  1.61 kB │ gzip:  0.54 kB
+dist/assets/azkar-category-azkar-evening-Do1Xr8-2.js                                 1.69 kB │ gzip:  0.59 kB
+dist/assets/LoadStateNotice-B5XkyF86.js                                              1.73 kB │ gzip:  0.75 kB
+dist/assets/story-category-01-general--batch-10-fzRfQZOS.js                          1.78 kB │ gzip:  0.35 kB
+dist/assets/azkar-category-azkar-morning-CyPAcZpM.js                                 2.12 kB │ gzip:  0.70 kB
+dist/assets/dua-category-dua-category-12-travel-road-provision-a9G_heg1.js           3.35 kB │ gzip:  1.19 kB
+dist/assets/manifest-6tdxuVnO.js                                                     3.64 kB │ gzip:  1.47 kB
+dist/assets/dua-category-dua-category-11-health-healing-BQZo_4Iy.js                  3.75 kB │ gzip:  1.21 kB
+dist/assets/AchievementsPage-DvMs9nUw.js                                             3.81 kB │ gzip:  1.48 kB
+dist/assets/load-azkar-DjjykvUv.js                                                   3.82 kB │ gzip:  1.38 kB
+dist/assets/AppCard-Uv7qIX_x.js                                                      3.82 kB │ gzip:  1.13 kB
+dist/assets/story-category-01-general--batch-0-BKo9mkvZ.js                           3.85 kB │ gzip:  0.42 kB
+dist/assets/story-category-01-general--batch-1-DcuItZjZ.js                           3.92 kB │ gzip:  0.45 kB
+dist/assets/story-category-01-general--batch-2-C7n-h9nw.js                           3.92 kB │ gzip:  0.45 kB
+dist/assets/story-category-01-general--batch-3-DXoecCu7.js                           3.92 kB │ gzip:  0.45 kB
+dist/assets/story-category-01-general--batch-4-D68DKage.js                           3.94 kB │ gzip:  0.45 kB
+dist/assets/story-category-01-general--batch-5-B2AllW8Q.js                           3.95 kB │ gzip:  0.46 kB
+dist/assets/story-category-01-general--batch-6-CbemHHqj.js                           3.95 kB │ gzip:  0.46 kB
+dist/assets/story-category-01-general--batch-7-CueSVJWa.js                           3.95 kB │ gzip:  0.46 kB
+dist/assets/story-category-01-general--batch-8-Bj4k5pir.js                           3.95 kB │ gzip:  0.46 kB
+dist/assets/story-category-01-general--batch-9-dXOVZJ8d.js                           3.95 kB │ gzip:  0.46 kB
+dist/assets/dua-category-dua-category-09-dunya-hereafter-goodness-exmRRr_K.js        4.00 kB │ gzip:  1.35 kB
+dist/assets/TasksPage-C_fVSPQz.js                                                    4.35 kB │ gzip:  1.70 kB
+dist/assets/NotificationsPage-Bd9gsEni.js                                            4.69 kB │ gzip:  1.93 kB
+dist/assets/story-category-02-prophets--batch-3-BG4k8r_q.js                          4.75 kB │ gzip:  0.48 kB
+dist/assets/story-category-03-companions--batch-3-BKJ1UkFb.js                        4.87 kB │ gzip:  0.48 kB
+dist/assets/story-category-02-prophets--batch-0-BKhnL8P_.js                          5.17 kB │ gzip:  0.50 kB
+dist/assets/story-category-02-prophets--batch-1-DUGJYCLz.js                          5.18 kB │ gzip:  0.50 kB
+dist/assets/story-category-02-prophets--batch-2-Oe7CTAU0.js                          5.18 kB │ gzip:  0.50 kB
+dist/assets/dua-category-dua-category-08-paradise-hell-hereafter-DToHbhg4.js         5.18 kB │ gzip:  1.67 kB
+dist/assets/story-category-03-companions--batch-0-BPBVdYhG.js                        5.30 kB │ gzip:  0.50 kB
+dist/assets/story-category-03-companions--batch-1-BKpfZS_q.js                        5.31 kB │ gzip:  0.50 kB
+dist/assets/story-category-03-companions--batch-2-CHJQMdG0.js                        5.31 kB │ gzip:  0.50 kB
+dist/assets/dua-category-dua-category-10-character-righteousness-C8T_A59v.js         5.48 kB │ gzip:  1.60 kB
+dist/assets/StatsPage-BIwUh4hX.js                                                    6.47 kB │ gzip:  2.32 kB
+dist/assets/MasbahaPage-C6xwxO5v.js                                                  6.64 kB │ gzip:  2.60 kB
+dist/assets/story-category-01-general--batch-10-Jh7L4V7K.js                          6.81 kB │ gzip:  1.55 kB
+dist/assets/SearchPage-Ctoz9C0G.js                                                   7.08 kB │ gzip:  2.75 kB
+dist/assets/ProfilePage-BMeV7URY.js                                                  7.22 kB │ gzip:  2.77 kB
+dist/assets/dua-category-dua-category-01-quran-duas-CpSLSCam.js                      8.70 kB │ gzip:  2.30 kB
+dist/assets/QuranPage-BfKDsaLj.js                                                    9.22 kB │ gzip:  3.28 kB
+dist/assets/NamesOfAllahPage-Cgr0xCRW.js                                             9.56 kB │ gzip:  3.26 kB
+dist/assets/stats-reflection-DEGKfrlG.js                                            10.06 kB │ gzip:  3.11 kB
+dist/assets/DuasPage-B349pLd4.js                                                    10.10 kB │ gzip:  3.59 kB
+dist/assets/AzkarPage-Cu5Oc26k.js                                                   10.86 kB │ gzip:  3.86 kB
+dist/assets/SettingsPage-DMVYiwYR.js                                                10.88 kB │ gzip:  4.20 kB
+dist/assets/StoriesPage-BmNTYHYQ.js                                                 11.30 kB │ gzip:  3.40 kB
+dist/assets/dua-category-dua-category-07-general-duas-DW9ORCfZ.js                   11.85 kB │ gzip:  2.57 kB
+dist/assets/load-stories-Om2f0WNZ.js                                                12.80 kB │ gzip:  2.76 kB
+dist/assets/load-duas-CcFO6KTj.js                                                   13.64 kB │ gzip:  4.83 kB
+dist/assets/names-Dmfkp4VB.js                                                       14.09 kB │ gzip:  4.12 kB
+dist/assets/legal-page-content-BaZwx9Jg.js                                          14.32 kB │ gzip:  4.58 kB
+dist/assets/story-category-01-general--batch-0-K-u0A3ZD.js                          15.69 kB │ gzip:  2.40 kB
+dist/assets/story-category-01-general--batch-3-DMWdyEsA.js                          15.70 kB │ gzip:  2.41 kB
+dist/assets/story-category-01-general--batch-2-DG7BYsmg.js                          15.70 kB │ gzip:  2.41 kB
+dist/assets/story-category-01-general--batch-1-CrB4m1hf.js                          15.71 kB │ gzip:  2.40 kB
+dist/assets/story-category-01-general--batch-4-BdNYehkF.js                          15.78 kB │ gzip:  2.42 kB
+dist/assets/story-category-01-general--batch-7-ChP1hx--.js                          15.78 kB │ gzip:  2.42 kB
+dist/assets/story-category-01-general--batch-8-BSKV9Uyg.js                          15.78 kB │ gzip:  2.44 kB
+dist/assets/story-category-01-general--batch-9-DdYfRrIp.js                          15.79 kB │ gzip:  2.42 kB
+dist/assets/story-category-01-general--batch-5-Cti0gxdD.js                          15.79 kB │ gzip:  2.43 kB
+dist/assets/story-category-01-general--batch-6--oQQ2G1F.js                          15.79 kB │ gzip:  2.42 kB
+dist/assets/HomePage-8EtCOn57.js                                                    16.78 kB │ gzip:  5.74 kB
+dist/assets/dua-category-dua-category-05-provision-blessing-UvdvKRxH.js             18.24 kB │ gzip:  3.84 kB
+dist/assets/story-category-02-prophets--batch-3-BVcRcjRX.js                         21.47 kB │ gzip:  2.88 kB
+dist/assets/dua-category-dua-category-06-mercy-steadfastness-guidance-YoZo8prR.js   21.56 kB │ gzip:  4.64 kB
+dist/assets/story-category-03-companions--batch-3-DcAF0DUN.js                       23.37 kB │ gzip:  2.92 kB
+dist/assets/story-category-02-prophets--batch-1-CZeVPV0O.js                         23.49 kB │ gzip:  3.02 kB
+dist/assets/story-category-02-prophets--batch-0-CitHesyq.js                         23.58 kB │ gzip:  3.28 kB
+dist/assets/story-category-02-prophets--batch-2-VzwX0yGx.js                         23.61 kB │ gzip:  3.32 kB
+dist/assets/load-quran-DSZqs9h5.js                                                  24.06 kB │ gzip:  3.12 kB
+dist/assets/story-category-03-companions--batch-2-DQNIPKyl.js                       25.52 kB │ gzip:  2.97 kB
+dist/assets/story-category-03-companions--batch-0-CQhf-x-9.js                       25.63 kB │ gzip:  2.99 kB
+dist/assets/story-category-03-companions--batch-1-BnHK7PUE.js                       25.68 kB │ gzip:  3.10 kB
+dist/assets/story-items-story-category-01-general-batch-0-GjDRxuRt.js               30.20 kB │ gzip:  3.48 kB
+dist/assets/story-items-story-category-01-general-batch-1-DSQEQv1A.js               30.22 kB │ gzip:  3.49 kB
+dist/assets/story-items-story-category-01-general-batch-2-Wv0xNvIo.js               30.22 kB │ gzip:  3.49 kB
+dist/assets/story-items-story-category-01-general-batch-3-BwSSRzLQ.js               30.23 kB │ gzip:  3.50 kB
+dist/assets/story-items-story-category-01-general-batch-5-SUAr3jZQ.js               30.27 kB │ gzip:  3.49 kB
+dist/assets/story-items-story-category-01-general-batch-9-Bic9AnOe.js               30.27 kB │ gzip:  3.49 kB
+dist/assets/story-items-story-category-01-general-batch-4-BZtQ7LC0.js               30.27 kB │ gzip:  3.49 kB
+dist/assets/story-items-story-category-01-general-batch-6-EEklN_FF.js               30.27 kB │ gzip:  3.50 kB
+dist/assets/story-items-story-category-01-general-batch-8--PfM1FWi.js               30.27 kB │ gzip:  3.49 kB
+dist/assets/story-items-story-category-01-general-batch-7-C_QaeXoB.js               30.28 kB │ gzip:  3.50 kB
+dist/assets/story-items-story-category-02-prophets-batch-4-DhQ1Mn_g.js              32.36 kB │ gzip:  3.14 kB
+dist/assets/story-items-story-category-02-prophets-batch-1-DYCG73Ts.js              32.51 kB │ gzip:  3.20 kB
+dist/assets/story-items-story-category-02-prophets-batch-2-D-AO9ZPk.js              32.60 kB │ gzip:  3.39 kB
+dist/assets/story-items-story-category-02-prophets-batch-3-B53-WM39.js              32.79 kB │ gzip:  3.30 kB
+dist/assets/story-items-story-category-02-prophets-batch-0-CGQ4qDJY.js              33.10 kB │ gzip:  3.33 kB
+dist/assets/story-items-story-category-03-companions-batch-3-BBzc1v4D.js            33.17 kB │ gzip:  3.09 kB
+dist/assets/story-items-story-category-03-companions-batch-2-BkQKUs4W.js            33.38 kB │ gzip:  3.21 kB
+dist/assets/story-items-story-category-03-companions-batch-1-B4p6M0Cn.js            33.49 kB │ gzip:  3.09 kB
+dist/assets/story-items-story-category-03-companions-batch-0-B0tgLZUT.js            33.70 kB │ gzip:  3.06 kB
+dist/assets/story-items-story-category-03-companions-batch-4-BW-HU3Eo.js            33.74 kB │ gzip:  3.29 kB
+dist/assets/quran-surahs-084-114-Ba6ucpaF.js                                        36.13 kB │ gzip:  8.46 kB
+dist/assets/router-vendor-CnvSsx_d.js                                               41.89 kB │ gzip: 14.97 kB
+dist/assets/dua-category-dua-category-04-forgiveness-repentance-Cl_MZ6ay.js         46.42 kB │ gzip:  8.52 kB
+dist/assets/index-DEB2Ao32.js                                                       53.97 kB │ gzip: 15.55 kB
+dist/assets/quran-surahs-003-003-kCHjA0-N.js                                        67.30 kB │ gzip: 13.98 kB
+dist/assets/dua-category-dua-category-02-distress-debt-CmGYOx7f.js                  82.63 kB │ gzip: 14.64 kB
+dist/assets/dua-category-dua-category-03-protection-fortification-R9rP8IgB.js       87.38 kB │ gzip: 16.35 kB
+dist/assets/quran-surahs-008-010-CeI5RWSn.js                                       108.07 kB │ gzip: 21.39 kB
+dist/assets/firebase-auth-T6_dw6M1.js                                              111.83 kB │ gzip: 33.15 kB
+dist/assets/quran-surahs-001-002-BIENLf85.js                                       116.85 kB │ gzip: 23.25 kB
+dist/assets/quran-surahs-016-019-DJ0mjImi.js                                       117.01 kB │ gzip: 24.52 kB
+dist/assets/quran-surahs-011-015-DvJfFPWT.js                                       117.35 kB │ gzip: 24.78 kB
+dist/assets/quran-surahs-025-029-CFvtmhM4.js                                       118.58 kB │ gzip: 23.58 kB
+dist/assets/quran-surahs-046-058-DRsd3wna.js                                       118.75 kB │ gzip: 24.76 kB
+dist/assets/quran-surahs-059-083-Bgp3C5O5.js                                       120.98 kB │ gzip: 25.43 kB
+dist/assets/quran-surahs-006-007-BeYLd1gn.js                                       123.22 kB │ gzip: 25.20 kB
+dist/assets/quran-surahs-020-024-Bff7btNF.js                                       123.44 kB │ gzip: 25.81 kB
+dist/assets/quran-surahs-004-005-D9vtXxZ4.js                                       124.75 kB │ gzip: 24.44 kB
+dist/assets/quran-surahs-030-037-BInDamOv.js                                       127.51 kB │ gzip: 25.90 kB
+dist/assets/quran-surahs-038-045-C-eXT3Dl.js                                       128.60 kB │ gzip: 26.50 kB
+dist/assets/react-vendor-7_R7uqif.js                                               190.23 kB │ gzip: 59.81 kB
+
+[32m✓ built in 5.42s[39m
+Dist finalized with entry ./assets/index-DEB2Ao32.js
