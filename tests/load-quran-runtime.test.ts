@@ -33,6 +33,9 @@ test('real quran loader exposes stable summary and normalized filtering against 
   const byNumber = filterQuranSurahs('112');
   assert.deepEqual(byNumber.map((surah) => surah.surahNumber), [112]);
 
+  const byHamzaNormalization = filterQuranSurahs('الاعلي');
+  assert.equal(byHamzaNormalization[0]?.surahNumber, 87);
+
   assert.equal(getSurahMetaByNumber(112)?.surahName, 'الإخلاص');
   assert.equal(getSurahMetaByNumber(999), null);
 });

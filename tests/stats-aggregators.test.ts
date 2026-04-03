@@ -4,8 +4,8 @@ import assert from 'node:assert/strict';
 import { buildStatsDashboard } from '@/features/stats/domain/stats-aggregators';
 
 test('stats dashboard aggregates all feature snapshots coherently', () => {
-  const dashboard = buildStatsDashboard(
-    {
+  const dashboard = buildStatsDashboard({
+    tasks: {
       items: [
         { id: 'w1', title: 'ورد 1', completed: true, group: 'wird', isDefault: true },
         { id: 'p1', title: 'شخصي', completed: false, group: 'personal', isDefault: false },
@@ -16,7 +16,7 @@ test('stats dashboard aggregates all feature snapshots coherently', () => {
       },
       lastDailyResetKey: '2026-03-31',
     },
-    {
+    masbaha: {
       isInitialized: true,
       isSilent: false,
       currentTarget: 33,
@@ -29,7 +29,7 @@ test('stats dashboard aggregates all feature snapshots coherently', () => {
         '2026-03-31': 40,
       },
     },
-    {
+    azkar: {
       isInitialized: true,
       isLoading: false,
       error: null,
@@ -41,7 +41,7 @@ test('stats dashboard aggregates all feature snapshots coherently', () => {
       },
       recentCategorySlugs: [],
     },
-    {
+    quran: {
       isInitialized: true,
       isLoading: false,
       error: null,
@@ -60,7 +60,7 @@ test('stats dashboard aggregates all feature snapshots coherently', () => {
         '2026-03-31': [1, 112],
       },
     },
-    {
+    duas: {
       isInitialized: true,
       isLoading: false,
       error: null,
@@ -73,7 +73,7 @@ test('stats dashboard aggregates all feature snapshots coherently', () => {
       favoriteIds: ['dua-1', 'dua-2'],
       recentCategorySlugs: [],
     },
-    {
+    stories: {
       isInitialized: true,
       isLoading: false,
       error: null,
@@ -88,7 +88,7 @@ test('stats dashboard aggregates all feature snapshots coherently', () => {
       recentCategorySlugs: [],
       recentStoryIds: [],
     },
-    {
+    names: {
       isInitialized: true,
       isLoading: false,
       error: null,
@@ -101,8 +101,8 @@ test('stats dashboard aggregates all feature snapshots coherently', () => {
       favoriteIds: ['name-1'],
       recentNameIds: [],
     },
-    'week',
-  );
+    filter: 'week',
+  });
 
   assert.equal(dashboard.tasksCompletedInRange, 3);
   assert.equal(dashboard.masbahaCountInRange, 60);

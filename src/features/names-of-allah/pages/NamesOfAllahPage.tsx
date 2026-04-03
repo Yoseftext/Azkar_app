@@ -1,11 +1,28 @@
 import { useEffect, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { AppButton } from '@/shared/ui/primitives/AppButton';
 import { AppCard } from '@/shared/ui/primitives/AppCard';
+import { AppSearchField } from '@/shared/ui/primitives/AppSearchField';
+import { StatTile } from '@/shared/ui/primitives/StatTile';
 import { EmptyState } from '@/shared/ui/feedback/EmptyState';
-import { getFavoriteAllahNameCount, getFavoriteAllahNameIds, getNameOfTheDay, getNamesActiveStreak, getNamesCompletedCountForToday, getSelectedAllahName, getVisibleAllahNames } from '@/features/names-of-allah/domain/name-selectors';
+import { SearchEmptyState } from '@/shared/ui/feedback/SearchEmptyState';
+import { LoadStateNotice } from '@/shared/ui/feedback/LoadStateNotice';
+import { NameOfTheDayCard } from '@/features/names-of-allah/components/NameOfTheDayCard';
+import { NamesReviewQueue } from '@/features/names-of-allah/components/NamesReviewQueue';
+import { buildNameOfTheDay, buildNamesReviewQueue } from '@/features/names-of-allah/domain/names-review-flow';
+import {
+  getFavoriteAllahNameCount,
+  getFavoriteAllahNameIds,
+  getNamesActiveStreak,
+  getNamesCompletedCountForToday,
+  getSelectedAllahName,
+  getVisibleAllahNames,
+} from '@/features/names-of-allah/domain/name-selectors';
 import { useNamesOfAllahStore } from '@/features/names-of-allah/state/names-store';
 import { getLocalDateKey } from '@/shared/lib/date';
 
 export function NamesOfAllahPage() {
+  const [searchParams] = useSearchParams();
   const state = useNamesOfAllahStore();
   const ensureLoaded = useNamesOfAllahStore((store) => store.ensureLoaded);
 
@@ -13,10 +30,19 @@ export function NamesOfAllahPage() {
     void ensureLoaded();
   }, [ensureLoaded]);
 
+  useEffect(() => {
+    const hasSearchQueryParam = searchParams.has('query');
+    const searchQueryFromUrl = searchParams.get('query') ?? '';
+    const nameFromUrl = searchParams.get('name')?.trim() ?? '';
+    if (hasSearchQueryParam && searchQueryFromUrl !== state.searchQuery) state.setSearchQuery(searchQueryFromUrl);
+    if (nameFromUrl && state.items.some((item) => item.id === nameFromUrl) && state.selectedNameId !== nameFromUrl) {
+      state.setSelectedName(nameFromUrl);
+    }
+  }, [searchParams, state.items, state.searchQuery, state.selectedNameId, state.setSearchQuery, state.setSelectedName]);
+
   const todayKey = getLocalDateKey();
   const visibleItems = useMemo(() => getVisibleAllahNames(state), [state]);
   const selectedName = useMemo(() => getSelectedAllahName(state), [state]);
-  const nameOfTheDay = useMemo(() => getNameOfTheDay(state), [state]);
   const completedTodayCount = useMemo(() => getNamesCompletedCountForToday(state), [state]);
   const favoriteCount = useMemo(() => getFavoriteAllahNameCount(state), [state]);
   const favoriteIds = useMemo(() => getFavoriteAllahNameIds(state), [state]);
@@ -26,61 +52,34 @@ export function NamesOfAllahPage() {
     () => state.recentNameIds.map((id) => state.items.find((item) => item.id === id)).filter((item): item is NonNullable<typeof item> => Boolean(item)),
     [state.items, state.recentNameIds],
   );
+  const nameOfTheDay = useMemo(() => buildNameOfTheDay(state), [state]);
+  const reviewQueue = useMemo(() => buildNamesReviewQueue(state), [state]);
 
   return (
     <div className="space-y-4">
-      <AppCard title="أسماء الله الحسنى" subtitle="module مستقلة مع lazy loader + search + favorites + daily progress، بدون بقاء القسم مجرد daily highlight ثابت.">
+      <NameOfTheDayCard item={nameOfTheDay} onOpen={state.setSelectedName} onToggleCompleted={state.toggleCompleted} />
+
+      <AppCard title="أسماء الله الحسنى" subtitle="تعلّم أسماء الله الحسنى وراجعها يوميًا بطريقة أوضح وأخف.">
         <div className="grid gap-3 md:grid-cols-4">
-          <StatPill label="إجمالي الأسماء" value={String(state.items.length || 99)} hint="الـ 99 اسمًا ضمن loader مستقلة." />
-          <StatPill label="منجز اليوم" value={String(completedTodayCount)} hint="الأسماء التي راجعتها أو حفظتها اليوم." />
-          <StatPill label="المفضلة" value={String(favoriteCount)} hint="اختياراتك السريعة للمراجعة لاحقًا." />
-          <StatPill label="السلسلة" value={`${activeStreak} يوم`} hint="عدد الأيام المتتالية التي راجعت فيها الأسماء." />
+          <StatTile label="إجمالي الأسماء" value={String(state.items.length || 99)} hint="الأسماء الحسنى" variant="slate" />
+          <StatTile label="منجز اليوم" value={String(completedTodayCount)} hint="مراجعة اليوم" variant="emerald" />
+          <StatTile label="المفضلة" value={String(favoriteCount)} hint="المفضلة لديك" variant="amber" />
+          <StatTile label="السلسلة" value={`${activeStreak} يوم`} hint="أيام نشطة" variant="sky" />
         </div>
 
-        {nameOfTheDay ? (
-          <div className="mt-4 rounded-[28px] border border-emerald-200 bg-emerald-50/80 p-4 dark:border-emerald-900/60 dark:bg-emerald-950/30">
-            <p className="text-xs font-semibold text-emerald-700 dark:text-emerald-300">اسم اليوم</p>
-            <p className="mt-2 text-2xl font-black text-slate-900 dark:text-slate-50">{nameOfTheDay.name}</p>
-            <p className="mt-2 text-sm leading-7 text-slate-700 dark:text-slate-200">{nameOfTheDay.description}</p>
-            <div className="mt-4 flex flex-wrap gap-2">
-              <button
-                type="button"
-                onClick={() => state.setSelectedName(nameOfTheDay.id)}
-                className="rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white transition hover:bg-slate-700 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-white"
-              >
-                افتح اسم اليوم
-              </button>
-              <button
-                type="button"
-                onClick={() => state.toggleCompleted(nameOfTheDay.id)}
-                className="rounded-full border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-700 transition hover:border-emerald-400 hover:text-emerald-700 dark:border-slate-700 dark:text-slate-200 dark:hover:border-emerald-700 dark:hover:text-emerald-300"
-              >
-                {completedTodaySet.has(nameOfTheDay.id) ? 'إلغاء إنجاز اليوم' : 'تأكيد مراجعة اليوم'}
-              </button>
-            </div>
-          </div>
-        ) : null}
-      </AppCard>
-
-      <AppCard title="البحث والمراجعة" subtitle="القائمة وdetail panel منفصلتان حتى لا يتحول الملف إلى God component أو تظل الحالة مبعثرة داخل الواجهة.">
-        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <input
-            value={state.searchQuery}
-            onChange={(event) => state.setSearchQuery(event.target.value)}
+        <div className="mt-4 space-y-4">
+          <AppSearchField
+            id="names-search"
+            label="ابحث بالاسم أو المعنى أو الفائدة"
+            query={state.searchQuery}
+            onQueryChange={state.setSearchQuery}
             placeholder="ابحث بالاسم أو الوصف أو الرقم..."
-            className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none ring-0 transition focus:border-sky-400 dark:border-slate-700 dark:bg-slate-800/80"
           />
-          <button
-            type="button"
-            onClick={() => state.resetTodayProgress()}
-            className="rounded-full border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-700 transition hover:border-rose-400 hover:text-rose-700 dark:border-slate-700 dark:text-slate-200 dark:hover:border-rose-700 dark:hover:text-rose-300"
-          >
-            تصفير مراجعة اليوم
-          </button>
+          <NamesReviewQueue items={reviewQueue} activeId={selectedName?.id ?? null} onOpen={state.setSelectedName} />
         </div>
 
-        {state.isLoading ? <p className="mt-4 text-sm text-slate-500 dark:text-slate-400">جارٍ تحميل الأسماء...</p> : null}
-        {state.error ? <p className="mt-4 text-sm text-rose-600 dark:text-rose-300">{state.error}</p> : null}
+        {state.isLoading ? <div className="mt-4"><LoadStateNotice title="جاري تحميل الأسماء" body="نجهز قائمة الأسماء والمراجعة السريعة لليوم." /></div> : null}
+        {state.error ? <div className="mt-4"><LoadStateNotice title="تعذر تحميل الأسماء" body={state.error} tone="error" actionLabel="إعادة المحاولة" onAction={() => void ensureLoaded()} /></div> : null}
 
         {!state.isLoading && !state.error ? (
           visibleItems.length > 0 ? (
@@ -127,29 +126,21 @@ export function NamesOfAllahPage() {
               <div className="space-y-4">
                 {selectedName ? (
                   <AppCard title={selectedName.name} subtitle={`الترتيب #${selectedName.order}`} className="h-full">
-                    <p className="text-base leading-8 text-slate-700 dark:text-slate-200">{selectedName.description}</p>
+                    <p className="app-reading-text text-base text-slate-700 dark:text-slate-200">{selectedName.description}</p>
                     <div className="mt-4 flex flex-wrap gap-2">
-                      <button
-                        type="button"
-                        onClick={() => state.toggleCompleted(selectedName.id)}
-                        className="rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white transition hover:bg-slate-700 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-white"
-                      >
+                      <AppButton onClick={() => state.toggleCompleted(selectedName.id)} variant={completedTodaySet.has(selectedName.id) ? 'outline' : 'success'}>
                         {completedTodaySet.has(selectedName.id) ? 'إلغاء مراجعة اليوم' : 'تأكيد مراجعة اليوم'}
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => state.toggleFavorite(selectedName.id)}
-                        className="rounded-full border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-700 transition hover:border-amber-400 hover:text-amber-700 dark:border-slate-700 dark:text-slate-200 dark:hover:border-amber-700 dark:hover:text-amber-300"
-                      >
+                      </AppButton>
+                      <AppButton onClick={() => state.toggleFavorite(selectedName.id)} variant="outline">
                         {favoriteIds.has(selectedName.id) ? 'إزالة من المفضلة' : 'إضافة إلى المفضلة'}
-                      </button>
+                      </AppButton>
                     </div>
                   </AppCard>
                 ) : (
                   <EmptyState title="لا توجد نتائج" body="غيّر عبارة البحث أو أعد ضبط الفلتر للوصول إلى الأسماء من جديد." />
                 )}
 
-                <AppCard title="آخر الأسماء المفتوحة" subtitle="مفيد للوصول السريع بدون ربط الصفحة بسجل routing خارجي.">
+                <AppCard title="آخر الأسماء المفتوحة" subtitle="استأنف من حيث توقفت">
                   {recentItems.length > 0 ? (
                     <div className="flex flex-wrap gap-2">
                       {recentItems.map((item) => (
@@ -164,34 +155,26 @@ export function NamesOfAllahPage() {
                       ))}
                     </div>
                   ) : (
-                    <p className="text-sm text-slate-500 dark:text-slate-400">لم تفتح أي اسم بعد داخل البنية الجديدة.</p>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">لم تفتح أي اسم بعد — ابدأ بالبحث أو اختر اسماً من القائمة.</p>
                   )}
                 </AppCard>
+
+                <AppButton onClick={() => state.resetTodayProgress()} variant="outline" fullWidth>
+                  تصفير مراجعة اليوم
+                </AppButton>
               </div>
             </div>
           ) : (
             <div className="mt-4">
-              <EmptyState title="لا توجد نتائج مطابقة" body="جرّب البحث باسم أقصر أو امسح عبارة البحث الحالية." />
+              {state.searchQuery.trim() ? (
+                <SearchEmptyState title="لا توجد نتائج مطابقة" body="جرّب اسمًا أقصر أو امسح البحث الحالي لرؤية جميع الأسماء." onClear={() => state.setSearchQuery('')} />
+              ) : (
+                <EmptyState title="لا توجد أسماء متاحة" body="تعذر عرض القائمة الآن. حاول مجددًا بعد لحظات." />
+              )}
             </div>
           )
         ) : null}
       </AppCard>
-    </div>
-  );
-}
-
-interface StatPillProps {
-  label: string;
-  value: string;
-  hint: string;
-}
-
-function StatPill({ label, value, hint }: StatPillProps) {
-  return (
-    <div className="rounded-3xl bg-slate-50 p-3 dark:bg-slate-800/70">
-      <p className="text-xs text-slate-500 dark:text-slate-400">{label}</p>
-      <p className="mt-2 text-lg font-bold text-slate-900 dark:text-slate-50">{value}</p>
-      <p className="mt-2 text-xs leading-5 text-slate-500 dark:text-slate-400">{hint}</p>
     </div>
   );
 }

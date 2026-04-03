@@ -1,3 +1,5 @@
+import { normalizeSearchTerm, scoreSearchMatch } from '@/shared/lib/search';
+
 export interface LoadedStoryItem {
   id: string;
   legacyId: number | string | null;
@@ -192,7 +194,7 @@ export function normalizeStoryCategories(
 }
 
 function normalizeQuery(query: string): string {
-  return query.trim().toLowerCase();
+  return normalizeSearchTerm(query);
 }
 
 function createManifestCategory(item: StoryCategoryManifestItem): LoadedStoryCategory {
@@ -443,33 +445,42 @@ export function filterLoadedStoryCategories(categories: LoadedStoryCategory[], q
   const normalizedQuery = normalizeQuery(query);
   if (!normalizedQuery) return categories;
 
-  return categories.reduce<LoadedStoryCategory[]>((acc, category) => {
-    const titleMatches = category.title.toLowerCase().includes(normalizedQuery);
-    const filteredItems = titleMatches
-      ? category.items
-      : category.items.filter((item) =>
-          [
+  return categories
+    .map((category) => {
+      const categoryScore = scoreSearchMatch(normalizedQuery, category.title, category.preview);
+      const rankedItems = category.items
+        .map((item) => ({
+          item,
+          score: scoreSearchMatch(
+            normalizedQuery,
             item.title,
             item.excerpt,
             item.lesson ?? '',
             item.source ?? '',
             item.categoryTitle,
             item.storyLoaded ? item.story : '',
-          ].some((value) => value.toLowerCase().includes(normalizedQuery)),
-        );
+          ),
+        }))
+        .filter((entry) => entry.score > 0)
+        .sort((left, right) => right.score - left.score || left.item.title.localeCompare(right.item.title, 'ar'));
 
-    if (!titleMatches && filteredItems.length === 0) return acc;
+      const score = Math.max(categoryScore, rankedItems[0]?.score ?? 0);
+      if (score === 0) return null;
 
-    acc.push({
-      ...cloneCategory(category),
-      itemCount: titleMatches ? category.itemCount : filteredItems.length,
-      preview: filteredItems[0]?.excerpt ?? category.preview,
-      itemIds: titleMatches ? [...category.itemIds] : filteredItems.map((item) => item.id),
-      itemsLoaded: category.itemsLoaded,
-      items: titleMatches ? category.items.map((item) => cloneStoryItem(item)) : filteredItems.map((item) => cloneStoryItem(item)),
-    });
-    return acc;
-  }, []);
+      const items = categoryScore > 0 ? category.items.map((item) => cloneStoryItem(item)) : rankedItems.map((entry) => cloneStoryItem(entry.item));
+      return {
+        ...cloneCategory(category),
+        itemCount: categoryScore > 0 ? category.itemCount : items.length,
+        preview: items[0]?.excerpt ?? category.preview,
+        itemIds: categoryScore > 0 ? [...category.itemIds] : items.map((item) => item.id),
+        itemsLoaded: category.itemsLoaded,
+        items,
+        __score: score,
+      } as LoadedStoryCategory & { __score: number };
+    })
+    .filter((category): category is LoadedStoryCategory & { __score: number } => Boolean(category))
+    .sort((left, right) => right.__score - left.__score || left.title.localeCompare(right.title, 'ar'))
+    .map(({ __score, ...category }) => category);
 }
 
 export async function loadStoriesSummary(): Promise<{ categoryCount: number; itemCount: number; featuredTitle: string; featuredLesson: string | null }> {

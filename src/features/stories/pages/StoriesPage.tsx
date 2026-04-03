@@ -1,6 +1,10 @@
 import { useEffect, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { AppCard } from '@/shared/ui/primitives/AppCard';
+import { AppSearchField } from '@/shared/ui/primitives/AppSearchField';
 import { EmptyState } from '@/shared/ui/feedback/EmptyState';
+import { SearchEmptyState } from '@/shared/ui/feedback/SearchEmptyState';
+import { LoadStateNotice } from '@/shared/ui/feedback/LoadStateNotice';
 import {
   getFavoriteStoryCount,
   getFavoriteStoryIds,
@@ -15,6 +19,7 @@ import {
 import { useStoriesStore } from '@/features/stories/state/stories-store';
 
 export function StoriesPage() {
+  const [searchParams] = useSearchParams();
   const initialize = useStoriesStore((state) => state.initialize);
   const ensureLoaded = useStoriesStore((state) => state.ensureLoaded);
   const categories = useStoriesStore((state) => state.categories);
@@ -39,6 +44,16 @@ export function StoriesPage() {
     initialize();
     void ensureLoaded();
   }, [ensureLoaded, initialize]);
+
+  useEffect(() => {
+    const hasSearchQueryParam = searchParams.has('query');
+    const searchQueryFromUrl = searchParams.get('query') ?? '';
+    const categoryFromUrl = searchParams.get('category')?.trim() ?? '';
+    if (hasSearchQueryParam && searchQueryFromUrl !== searchQuery) setSearchQuery(searchQueryFromUrl);
+    if (categoryFromUrl && categories.some((category) => category.slug === categoryFromUrl) && selectedCategorySlug !== categoryFromUrl) {
+      setSelectedCategory(categoryFromUrl);
+    }
+  }, [categories, searchParams, searchQuery, selectedCategorySlug, setSearchQuery, setSelectedCategory]);
 
   const stateSnapshot = useMemo(
     () => ({
@@ -79,7 +94,7 @@ export function StoriesPage() {
 
   return (
     <div className="space-y-4">
-      <AppCard title="قسم القصص" subtitle="الآن صار module فعلية: summary-first loading، قراءة داخلية مستقرة، progress يومي، ومفضلة بدون ربط القصص بالـ shell أو الصفحة الرئيسية.">
+      <AppCard title="قسم القصص" subtitle="قصص إسلامية مختارة للقراءة والتأمل">
         <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
           <SummaryBox label="الفئات" value={String(categories.length)} />
           <SummaryBox label="إجمالي القصص" value={String(categories.reduce((sum, category) => sum + category.itemCount, 0))} />
@@ -88,16 +103,13 @@ export function StoriesPage() {
           <SummaryBox label="سلسلة النشاط" value={`${activeStreak} يوم`} />
         </div>
 
-        <div className="mt-4 rounded-3xl bg-slate-50 p-3 dark:bg-slate-800/70">
-          <label htmlFor="stories-search" className="text-xs font-semibold text-slate-500 dark:text-slate-300">
-            ابحث في العنوان أو ملخص القصة أو العبرة
-          </label>
-          <input
+        <div className="mt-4">
+          <AppSearchField
             id="stories-search"
-            value={searchQuery}
-            onChange={(event) => setSearchQuery(event.target.value)}
+            label="ابحث في العنوان أو ملخص القصة أو العبرة"
+            query={searchQuery}
+            onQueryChange={setSearchQuery}
             placeholder="مثال: الصبر أو موسى أو الصحابة"
-            className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-sky-500 dark:border-slate-700 dark:bg-slate-900"
           />
         </div>
 
@@ -144,15 +156,19 @@ export function StoriesPage() {
         ) : null}
       </AppCard>
 
-      {error ? <AppCard><p className="text-sm text-rose-600 dark:text-rose-300">{error}</p></AppCard> : null}
-      {isLoading ? <AppCard><p className="text-sm text-slate-500 dark:text-slate-400">جاري تحميل القصص…</p></AppCard> : null}
+      {error ? <LoadStateNotice title="تعذر تحميل القصص" body={error} tone="error" actionLabel="إعادة المحاولة" onAction={() => void ensureLoaded()} /> : null}
+      {isLoading ? <LoadStateNotice title="جاري تحميل القصص" body="نحضّر فئات القصص وملخصاتها لتبدأ القراءة بهدوء." /> : null}
 
       {!isLoading && visibleCategories.length === 0 ? (
-        <EmptyState title="لا توجد نتائج" body="جرّب تغيير كلمة البحث أو امسح الفلتر الحالي لرؤية فئات القصص الكاملة." />
+        searchQuery.trim() ? (
+          <SearchEmptyState title="لا توجد نتائج" body="جرّب عبارة بحث أقصر أو امسح البحث الحالي لرؤية فئات القصص الكاملة." onClear={() => setSearchQuery('')} />
+        ) : (
+          <EmptyState title="لا توجد فئات متاحة" body="تعذر عرض القصص الآن. حاول مجددًا بعد لحظات." />
+        )
       ) : null}
 
       {visibleCategories.length > 0 ? (
-        <AppCard title="فئات القصص" subtitle="اختيار الفئة والقصة منفصل عن progress state، مع summary-first loading وبحث يحمّل النص الكامل عند الحاجة فقط.">
+        <AppCard title="فئات القصص" subtitle="اختر فئة لاستعراض قصصها">
           <div className="flex flex-wrap gap-2">
             {visibleCategories.map((category) => {
               const progress = getStoryCategoryProgressForToday(stateSnapshot, category.slug);
@@ -285,7 +301,7 @@ export function StoriesPage() {
                 </div>
               ) : (
                 <article className="rounded-[28px] bg-slate-50 p-4 dark:bg-slate-800/70">
-                  <p className="whitespace-pre-line text-sm leading-8 text-slate-900 dark:text-slate-50">{selectedStory.story}</p>
+                  <p className="app-reading-text whitespace-pre-line text-sm text-slate-900 dark:text-slate-50">{selectedStory.story}</p>
                 </article>
               )}
             </AppCard>

@@ -1,0 +1,6 @@
+$ npm run format:check
+
+> azkar-app-next@0.1.0 format:check
+> node ./tools/format-check.mjs
+
+Format check passed.

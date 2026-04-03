@@ -24,22 +24,22 @@ test('SettingsPage DOM interactions toggle theme and invoke sign out action', as
   const harness = await renderWithDom(React.createElement(MemoryRouter, null, React.createElement(SettingsPage)));
   try {
     assert.equal(usePreferencesStore.getState().themeMode, 'system');
-    await harness.click(harness.findByText('dark', { exact: true, tagName: 'button' }));
+    await harness.click(harness.findByText('🌙 داكن', { exact: true, tagName: 'button' }));
     assert.equal(usePreferencesStore.getState().themeMode, 'dark');
     assert.equal(harness.document.documentElement.classList.contains('dark'), true);
-    await harness.click(harness.findByText('light', { exact: true, tagName: 'button' }));
+    await harness.click(harness.findByText('☀️ فاتح', { exact: true, tagName: 'button' }));
     assert.equal(usePreferencesStore.getState().themeMode, 'light');
     assert.equal(harness.document.documentElement.classList.contains('dark'), false);
     await harness.click(harness.findByText('تسجيل الخروج', { exact: true, tagName: 'button' }));
     assert.equal(signOutCalls, 1);
-    assert.match(harness.bodyText(), /فتح الملف الشخصي/);
+    assert.match(harness.bodyText(), /الملف الشخصي/);
   } finally { await harness.cleanup(); }
 });
 
 test('QuranPage DOM interactions update search and open then close the reader', async () => {
   resetAllStores();
   useQuranStore.setState({ ...useQuranStore.getState(), isInitialized: true, searchQuery: '', activeSurahNumber: null, activeSurahName: null, activeVerses: [], bookmark: null, recentSurahNumbers: [18], dailyReadings: {} });
-  const harness = await renderWithDom(React.createElement(QuranPage));
+  const harness = await renderWithDom(React.createElement(MemoryRouter, null, React.createElement(QuranPage)));
   try {
     await harness.change(harness.findById('quran-search'), '18');
     assert.equal(useQuranStore.getState().searchQuery, '18');
@@ -59,7 +59,7 @@ test('DuasPage DOM interactions toggle favorite and completion through visible c
   const duaA = makeDuaItem({ id: 'dua-1', text: 'اللهم اغفر لي', source: 'السنة', categorySlug: 'daily-duas', categoryTitle: 'أدعية يومية' });
   const duaB = makeDuaItem({ id: 'dua-2', text: 'اللهم اهدني', source: 'القرآن', categorySlug: 'daily-duas', categoryTitle: 'أدعية يومية' });
   useDuasStore.setState({ ...useDuasStore.getState(), isInitialized: true, isLoading: false, error: null, searchQuery: '', selectedCategorySlug: 'daily-duas', completedByDate: {}, favoriteIds: [], recentCategorySlugs: ['daily-duas'], categories: [makeDuaCategory({ slug: 'daily-duas', title: 'أدعية يومية', items: [duaA, duaB], itemsLoaded: true })] });
-  const harness = await renderWithDom(React.createElement(DuasPage));
+  const harness = await renderWithDom(React.createElement(MemoryRouter, null, React.createElement(DuasPage)));
   try {
     await harness.click(harness.findByText('☆ أضف للمفضلة', { exact: true, tagName: 'button' }));
     assert.deepEqual(useDuasStore.getState().favoriteIds, ['dua-1']);
@@ -82,7 +82,7 @@ test('StoriesPage DOM interactions load more items and toggle favorites inside t
     useStoriesStore.setState({ ...current, categories: current.categories.map((category) => category.slug === 'story-category-1' ? { ...category, items: [storyA, storyB, storyC], loadedSummaryBatchIndexes: [0,1] } : category) });
   };
   useStoriesStore.setState({ ...useStoriesStore.getState(), isInitialized: true, isLoading: false, error: null, searchQuery: '', selectedCategorySlug: 'story-category-1', selectedStoryId: storyA.id, completedByDate: {}, favoriteIds: [], recentCategorySlugs: ['story-category-1'], recentStoryIds: [storyA.id], categories: [seededCategory], loadMoreSelectedCategoryStories });
-  const harness = await renderWithDom(React.createElement(StoriesPage));
+  const harness = await renderWithDom(React.createElement(MemoryRouter, null, React.createElement(StoriesPage)));
   try {
     assert.match(harness.bodyText(), /المحمل الآن 2 من 3/);
     await harness.click(harness.findByText('تحميل قصص إضافية', { exact: true, tagName: 'button' }));

@@ -1,0 +1,1 @@
+import{t as e}from"./react-vendor-7_R7uqif.js";import{a as t}from"./AppCard-Uv7qIX_x.js";var n=e();function r({variant:e=`primary`,size:r=`md`,fullWidth:i=!1,className:a,children:o,type:s=`button`,...c}){return(0,n.jsx)(`button`,{type:s,className:t({variant:e,size:r,fullWidth:i,className:a}),...c,children:o})}export{r as t};

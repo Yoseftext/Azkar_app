@@ -36,3 +36,28 @@ export interface StatsDashboard {
   lastReadSurahName: string | null;
   activeDays: number;
 }
+
+
+export interface StatsInsight {
+  id: string;
+  title: string;
+  body: string;
+  tone: 'sky' | 'emerald' | 'amber' | 'slate';
+}
+
+export interface WeeklyReflectionFocus {
+  title: string;
+  body: string;
+  ctaLabel: string;
+  to: string;
+}
+
+export interface WeeklyReflection {
+  title: string;
+  summary: string;
+  highlights: string[];
+  strongestAreaLabel: string;
+  strongestAreaDetail: string;
+  activeDays: number;
+  focus: WeeklyReflectionFocus;
+}

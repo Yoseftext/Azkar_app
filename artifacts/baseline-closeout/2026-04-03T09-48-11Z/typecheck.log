@@ -1,0 +1,5 @@
+$ npm run typecheck
+
+> azkar-app-next@0.1.0 typecheck
+> node ./node_modules/typescript/bin/tsc --noEmit
+

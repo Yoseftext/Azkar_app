@@ -1,0 +1,120 @@
+$ node --import ./tools/test/register-alias-loader.mjs --test tests/routes-integration.test.ts
+TAP version 13
+# Subtest: route-level integration
+    # Subtest: renders home dashboard metrics from multiple stores inside the shell header
+    ok 1 - renders home dashboard metrics from multiple stores inside the shell header
+      ---
+      duration_ms: 38.604119
+      type: 'test'
+      ...
+    # Subtest: renders tasks route with personal group state and delete affordance
+    ok 2 - renders tasks route with personal group state and delete affordance
+      ---
+      duration_ms: 9.176574
+      type: 'test'
+      ...
+    # Subtest: renders quran route with bookmark banner and recent surah shortcuts
+    ok 3 - renders quran route with bookmark banner and recent surah shortcuts
+      ---
+      duration_ms: 61.060983
+      type: 'test'
+      ...
+    # Subtest: renders quran reader route with active surah content, bookmark context, and recent shortcuts while the reader is open
+    ok 4 - renders quran reader route with active surah content, bookmark context, and recent shortcuts while the reader is open
+      ---
+      duration_ms: 6.789962
+      type: 'test'
+      ...
+    # Subtest: renders quran reader loading and error states without leaking stale verse content
+    ok 5 - renders quran reader loading and error states without leaking stale verse content
+      ---
+      duration_ms: 7.533178
+      type: 'test'
+      ...
+    # Subtest: renders quran index empty state when search does not match any surah
+    ok 6 - renders quran index empty state when search does not match any surah
+      ---
+      duration_ms: 5.680992
+      type: 'test'
+      ...
+    # Subtest: renders settings route from auth and preferences stores
+    ok 7 - renders settings route from auth and preferences stores
+      ---
+      duration_ms: 53.413039
+      type: 'test'
+      ...
+    # Subtest: renders azkar route with filtered categories, recent chips, and item-level progress state
+    ok 8 - renders azkar route with filtered categories, recent chips, and item-level progress state
+      ---
+      duration_ms: 16.751548
+      type: 'test'
+      ...
+    # Subtest: renders duas route with selected category hydration, sources, favorites, and completion badges
+    ok 9 - renders duas route with selected category hydration, sources, favorites, and completion badges
+      ---
+      duration_ms: 11.77647
+      type: 'test'
+      ...
+    # Subtest: renders stories route with batch-aware category state, load-more affordance, and selected story hydration state
+    ok 10 - renders stories route with batch-aware category state, load-more affordance, and selected story hydration state
+      ---
+      duration_ms: 10.109057
+      type: 'test'
+      ...
+    # Subtest: renders non-bottom-nav route metadata for names of allah with selected detail
+    ok 11 - renders non-bottom-nav route metadata for names of allah with selected detail
+      ---
+      duration_ms: 10.48044
+      type: 'test'
+      ...
+    # Subtest: renders stats route from aggregated snapshots across all feature stores
+    ok 12 - renders stats route from aggregated snapshots across all feature stores
+      ---
+      duration_ms: 14.380753
+      type: 'test'
+      ...
+    # Subtest: renders profile route with signed-in account snapshot and internal navigation links
+    ok 13 - renders profile route with signed-in account snapshot and internal navigation links
+      ---
+      duration_ms: 9.219526
+      type: 'test'
+      ...
+    # Subtest: renders profile route guest fallback when auth is not configured
+    ok 14 - renders profile route guest fallback when auth is not configured
+      ---
+      duration_ms: 7.827945
+      type: 'test'
+      ...
+    # Subtest: renders unified about route inside the app shell instead of legacy standalone html
+    ok 15 - renders unified about route inside the app shell instead of legacy standalone html
+      ---
+      duration_ms: 6.727227
+      type: 'test'
+      ...
+    # Subtest: renders privacy route with current architecture guarantees instead of legacy ad-sync text
+    ok 16 - renders privacy route with current architecture guarantees instead of legacy ad-sync text
+      ---
+      duration_ms: 5.822264
+      type: 'test'
+      ...
+    # Subtest: renders contact route with official mail actions and internal legal links
+    ok 17 - renders contact route with official mail actions and internal legal links
+      ---
+      duration_ms: 6.65319
+      type: 'test'
+      ...
+    1..17
+ok 1 - route-level integration
+  ---
+  duration_ms: 284.555142
+  type: 'suite'
+  ...
+1..1
+# tests 17
+# suites 1
+# pass 17
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3582.869511

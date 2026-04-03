@@ -1,0 +1,5 @@
+
+> azkar-app-next@0.1.0 verify:e2e
+> node ./tools/verify-real-browser-e2e.mjs
+
+Real browser E2E harness is ready, but this environment blocks Chromium from opening localhost/file resources.

@@ -1,17 +1,25 @@
-# Release Readiness Report
+# RELEASE READINESS REPORT
 
-## Verified gates in this environment
-- test: passed (`npm test`)
-- build: passed (`npm run build`)
-- browser-runtime verification: passed (`npm run verify:browser`)
-- real-browser E2E: blocked by Chromium organizational policy in this environment (`npm run verify:e2e` exits with code 2 and writes `REAL_BROWSER_E2E_REPORT.md`)
+Expansion closeout evaluated on **2026-04-03T11-05-09Z** from the latest adaptive-home archive.
 
-## Meaning
-- The release-readiness harness is now complete inside the repository.
-- The only unresolved gate is **external execution** of the real-browser harness on a machine or CI runner where Chromium is allowed to open `localhost` or `file://` resources.
+## Gate status
+- static-check: PASS
+- typecheck: PASS
+- lint: PASS
+- format-check: PASS
+- tests: PASS (31 files executed individually with `--test-force-exit`)
+- build: PASS
+- chunk-audit: PASS
+- browser-runtime: PASS
+- real-browser-e2e: BLOCKED BY ENVIRONMENT
 
-## Next external action
-- Run:
-  - `npm run build`
-  - `npm run verify:e2e`
-- Or run the composite script `npm run verify:release` in an unrestricted environment.
+## Notes
+- The test runner contract was hardened to use `--test-force-exit` to avoid non-TTY hangs during closeout.
+- Closeout is based on real step-by-step logs under `artifacts/expansion-closeout/2026-04-03T11-05-09Z`.
+
+## Chunk audit snapshot
+- Total assets: 143
+- JavaScript chunks: 142
+- Tiny JS chunks <2KB: n/a
+- Large JS chunks >=50KB: n/a
+- Largest JS chunk: n/a KB

@@ -1,5 +1,7 @@
 import { useMemo, useState } from 'react';
 import { AppCard } from '@/shared/ui/primitives/AppCard';
+import { AppButton } from '@/shared/ui/primitives/AppButton';
+import { AppTextField } from '@/shared/ui/primitives/AppTextField';
 import { EmptyState } from '@/shared/ui/feedback/EmptyState';
 import { useTasksStore } from '@/features/tasks/state/tasks-store';
 import type { TaskGroup } from '@/features/tasks/domain/task-types';
@@ -28,7 +30,7 @@ export function TasksPage() {
 
   return (
     <div className="space-y-4">
-      <AppCard title="لوحة المهام" subtitle="كل شيء في هذه المرحلة يتحرك كمهمات واضحة وقابلة للتتبع.">
+      <AppCard title="لوحة المهام" subtitle="تابع تقدمك اليومي في المهام والورد">
         <div className="grid grid-cols-2 gap-3">
           <div className="rounded-3xl bg-sky-50 p-3 dark:bg-sky-950/40">
             <p className="text-xs text-sky-700 dark:text-sky-300">المجموعة الحالية</p>
@@ -61,7 +63,7 @@ export function TasksPage() {
         </div>
       </AppCard>
 
-      <AppCard title="إضافة مهمة شخصية" subtitle="المهام الافتراضية ثابتة، والحذف متاح فقط للمهام الشخصية.">
+      <AppCard title="إضافة مهمة شخصية" subtitle="يمكنك إضافة ورد أو مهمة شخصية جديدة">
         <form
           className="flex gap-2"
           onSubmit={(event) => {
@@ -70,23 +72,25 @@ export function TasksPage() {
             setDraft('');
           }}
         >
-          <input
+          <AppTextField
+            id="task-draft"
+            label="عنوان المهمة الجديدة"
             value={draft}
             onChange={(event) => setDraft(event.target.value)}
             placeholder="أضف ورداً أو مهمة شخصية"
-            className="min-w-0 flex-1 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none ring-0 placeholder:text-slate-400 focus:border-sky-400 dark:border-slate-700 dark:bg-slate-800"
+            panelClassName="min-w-0 flex-1"
           />
-          <button
-            type="submit"
-            className="rounded-2xl bg-sky-600 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-sky-700"
-          >
-            إضافة
-          </button>
+          <AppButton type="submit">إضافة</AppButton>
         </form>
       </AppCard>
 
       {filteredItems.length === 0 ? (
-        <EmptyState title="لا توجد مهام هنا بعد" body="أضف مهمة شخصية جديدة أو بدّل إلى مهام الورد لرؤية القائمة الافتراضية." />
+        <EmptyState
+          title="لا توجد مهام هنا بعد"
+          body={activeGroup === 'personal' ? 'أضف مهمة شخصية جديدة، أو انتقل إلى مهام الورد لرؤية الخطوات الافتراضية لهذا اليوم.' : 'لا توجد مهام ورد ظاهرة الآن. جرّب التبديل إلى المهام الشخصية أو أعد ضبط القائمة.'}
+          actionLabel={activeGroup === 'personal' ? 'اعرض مهام الورد' : 'اعرض المهام الشخصية'}
+          onAction={() => setActiveGroup(activeGroup === 'personal' ? 'wird' : 'personal')}
+        />
       ) : (
         <AppCard title="قائمة المهام">
           <ul className="space-y-3">
